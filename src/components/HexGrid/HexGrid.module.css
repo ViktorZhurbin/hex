@@ -1,0 +1,90 @@
+.root {
+  /* Change this to change the appearance of the hexagons */
+  --hex-width: 100px;
+  --hex-between: 8px;
+
+  /* Other hexagon dimentions */
+  --hex-height: calc(var(--hex-width) / 1.73 /* sqrt(3) */);
+  --hex-margin: calc(var(--hex-width) / 2);
+  --hex-border: calc(var(--hex-margin) / 1.73 /* sqrt(3) */);
+
+  /* Colors */
+  --color-hex-default: #4fc08d;
+  --color-hover: #35a171;
+
+  --color-angular: #dd0031;
+  --color-atom: #66595c;
+  --color-bootstrap: #563d7c;
+  --color-circleci: #343434;
+  --color-css: #1572b6;
+  --color-git: #f14e32;
+  --color-gulp: #da4648;
+  --color-haskell: #5d4f85;
+  --color-html: #e34f26;
+  --color-javascript: #f7df1e;
+  --color-meteor: #de4f4f;
+  --color-python: #3776ab;
+  --color-rails: #cc0000;
+  --color-sass: #cc6699;
+  --color-vuejs: #4fc08d;
+  --color-webpack: #8dd6f9;
+
+  /* Hexagons */
+  display: grid;
+  grid-template-columns: var(--hex-width) var(--hex-width) var(--hex-width) var(
+      --hex-width
+    );
+  grid-auto-rows: calc(var(--hex-width) - 28.87px / 2);
+  grid-gap: var(--hex-between) var(--hex-between);
+  padding-bottom: var(--hex-border);
+}
+
+.hex {
+  --color-transition: 150ms ease-in-out;
+
+  cursor: pointer;
+  position: relative;
+  background-color: var(--color-hex-default);
+  height: var(--hex-height);
+  margin: var(--hex-border) 0;
+  width: var(--hex-width);
+  transition: background-color var(--color-transition);
+}
+
+.hex::after,
+.hex::before {
+  position: absolute;
+  border-left: var(--hex-margin) solid transparent;
+  border-right: var(--hex-margin) solid transparent;
+  content: "";
+  left: 0;
+  width: 0;
+  transition: border-color var(--color-transition);
+}
+.hex::after {
+  top: 100%;
+  border-top: var(--hex-border) solid var(--color-hex-default);
+}
+.hex::before {
+  bottom: 100%;
+  border-bottom: var(--hex-border) solid var(--color-hex-default);
+}
+
+.hex:hover {
+  background-color: var(--color-hover);
+}
+
+.hex:hover::after {
+  border-top-color: var(--color-hover);
+}
+
+.hex:hover::before {
+  border-bottom-color: var(--color-hover);
+}
+
+.hex:nth-child(8n + 5),
+.hex:nth-child(8n + 6),
+.hex:nth-child(8n + 7),
+.hex:nth-child(8n + 8) {
+  margin-left: calc(var(--hex-width) / 2 + var(--hex-between) / 2);
+}

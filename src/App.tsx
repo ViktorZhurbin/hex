@@ -1,5 +1,5 @@
 // import { createSignal } from 'solid-js'
-import { HexGrid } from "./components/HexGrid";
+import { HexGrid } from "./components/HexGrid/HexGrid";
 import "./App.css";
 
 function App() {

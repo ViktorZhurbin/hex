@@ -1,7 +1,9 @@
 import { Accessor } from "solid-js";
 import styles from "./Player.module.css";
+import { THex } from "../../types/Hex";
 
 type PlayerProps = {
+  id: THex["unitId"];
   isSelected: Accessor<boolean>;
 };
 

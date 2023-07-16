@@ -1,39 +1,68 @@
-import { Index, createMemo, createSignal } from "solid-js";
+import { Index, createSignal, onMount } from "solid-js";
+import { createStore, produce } from "solid-js/store";
 import styles from "./HexGrid.module.css";
 import { Hex } from "../Hex/Hex";
+import type { THex } from "../../types/Hex";
 
-const ROWS = 4;
-const HEXES_PER_ROW = 4;
+const HEXES_PER_SIDE = 4;
 
-const HEXES = Array.from(Array(HEXES_PER_ROW * ROWS).keys());
+const SIDE = Array.from(Array(HEXES_PER_SIDE));
+
+const initialMap: THex[][] = SIDE.map((_, rowIndex) =>
+  SIDE.map((_, colIndex) => {
+    return {
+      coords: {
+        row: rowIndex,
+        col: colIndex,
+      },
+      unitId: null,
+    };
+  }),
+);
 
 export const HexGrid = () => {
-  const [playerPosition, setPlayerPosition] = createSignal(0);
-  const [isPlayerSelected, setPlayerSelected] = createSignal(false);
+  const [map, setMap] = createStore(initialMap);
+  const [selectedHex, setSelectedHex] = createSignal<THex["coords"] | null>(
+    null,
+  );
+  const [selectedUnit, setSelectedUnit] = createSignal<THex["unitId"] | null>(
+    null,
+  );
+
+  onMount(() => {
+    setMap(
+      produce((s) => {
+        s[0][0].unitId = "id";
+      }),
+    );
+  });
 
   return (
     <div class={styles.root}>
-      <Index each={HEXES}>
-        {(_, index) => {
-          const isCurrentPlayerHex = createMemo(
-            () => index === playerPosition(),
-          );
-          const isEvenRow =
-            index === HEXES_PER_ROW ||
-            Math.floor(index / HEXES_PER_ROW) % 2 > 0;
-
+      <Index each={map}>
+        {(row, rowIndex) => {
           return (
-            <Hex
-              hasUnit={isCurrentPlayerHex}
-              isUnitSelected={isPlayerSelected}
-              isShifted={isEvenRow}
-              onClick={() => {
-                if (!isCurrentPlayerHex() && isPlayerSelected()) {
-                  setPlayerPosition(index);
-                  setPlayerSelected(false);
-                }
+            <div
+              classList={{
+                [styles.row]: true,
+                [styles.rowEven]: (rowIndex + 1) % 2 === 0,
               }}
-            />
+            >
+              <Index each={row()}>
+                {(hex) => {
+                  return (
+                    <Hex
+                      hex={hex}
+                      setMap={setMap}
+                      selectedHex={selectedHex}
+                      setSelectedHex={setSelectedHex}
+                      selectedUnit={selectedUnit}
+                      setSelectedUnit={setSelectedUnit}
+                    />
+                  );
+                }}
+              </Index>
+            </div>
           );
         }}
       </Index>

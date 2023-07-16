@@ -14,16 +14,15 @@
 
   /* Hexagons */
   display: grid;
-  grid-template-columns: var(--hex-width) var(--hex-width) var(--hex-width) var(
-      --hex-width
-    );
   grid-auto-rows: calc(var(--hex-width) - 28.87px / 2);
   grid-gap: var(--hex-between);
 }
 
-.hex:nth-child(8n + 5),
-.hex:nth-child(8n + 6),
-.hex:nth-child(8n + 7),
-.hex:nth-child(8n + 8) {
+.row {
+  display: flex;
+  gap: var(--hex-between);
+}
+
+.rowEven {
   margin-left: calc(var(--hex-width) / 2 + var(--hex-between) / 2);
 }

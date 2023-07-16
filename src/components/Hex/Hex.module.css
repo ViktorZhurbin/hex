@@ -39,7 +39,3 @@
 .hex:not(.current):hover::before {
   border-bottom-color: var(--color-hover);
 }
-
-.shifted {
-  margin-left: calc(var(--hex-width) / 2 + var(--hex-between) / 2);
-}

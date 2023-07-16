@@ -1,6 +1,5 @@
 .root {
   /* Change this to change the appearance of the hexagons */
-  --hex-width: 100px;
   --hex-between: 8px;
 
   /* Other hexagon dimentions */
@@ -40,15 +39,15 @@
 }
 
 .hex {
-  --color-transition: 150ms ease-in-out;
-
   cursor: pointer;
   position: relative;
   background-color: var(--color-hex-default);
   height: var(--hex-height);
   margin: var(--hex-border) 0;
   width: var(--hex-width);
-  transition: background-color var(--color-transition);
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .hex::after,
@@ -59,7 +58,6 @@
   content: "";
   left: 0;
   width: 0;
-  transition: border-color var(--color-transition);
 }
 .hex::after {
   top: 100%;
@@ -70,15 +68,15 @@
   border-bottom: var(--hex-border) solid var(--color-hex-default);
 }
 
-.hex:hover {
+.hex:not(.current):hover {
   background-color: var(--color-hover);
 }
 
-.hex:hover::after {
+.hex:not(.current):hover::after {
   border-top-color: var(--color-hover);
 }
 
-.hex:hover::before {
+.hex:not(.current):hover::before {
   border-bottom-color: var(--color-hover);
 }
 

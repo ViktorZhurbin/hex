@@ -1,0 +1,17 @@
+.root {
+  --size: calc(var(--hex-width) / 2);
+
+  width: var(--size);
+  height: var(--size);
+  cursor: pointer;
+  background-color: #f7df1e;
+}
+
+.root:hover {
+  background-color: #d1be2d;
+}
+
+.selected,
+.selected:hover {
+  background-color: #da4648;
+}

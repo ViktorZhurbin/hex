@@ -1,0 +1,45 @@
+.hex {
+  cursor: pointer;
+  position: relative;
+  background-color: var(--color-hex-default);
+  height: var(--hex-height);
+  margin: var(--hex-border) 0;
+  width: var(--hex-width);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.hex::after,
+.hex::before {
+  position: absolute;
+  border-left: var(--hex-margin) solid transparent;
+  border-right: var(--hex-margin) solid transparent;
+  content: "";
+  left: 0;
+  width: 0;
+}
+.hex::after {
+  top: 100%;
+  border-top: var(--hex-border) solid var(--color-hex-default);
+}
+.hex::before {
+  bottom: 100%;
+  border-bottom: var(--hex-border) solid var(--color-hex-default);
+}
+
+.hex:not(.current):hover {
+  background-color: var(--color-hover);
+}
+
+.hex:not(.current):hover::after {
+  border-top-color: var(--color-hover);
+}
+
+.hex:not(.current):hover::before {
+  border-bottom-color: var(--color-hover);
+}
+
+.shifted {
+  margin-left: calc(var(--hex-width) / 2 + var(--hex-between) / 2);
+}

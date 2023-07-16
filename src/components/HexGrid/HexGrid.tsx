@@ -1,9 +1,11 @@
-import { Index, Show, createMemo, createSignal } from "solid-js";
+import { Index, createMemo, createSignal } from "solid-js";
 import styles from "./HexGrid.module.css";
-import { Player } from "../Player/Player";
+import { Hex } from "../Hex/Hex";
 
-const HEX_PER_SIDE = 16;
-const HEXES = Array.from(Array(HEX_PER_SIDE).keys());
+const ROWS = 4;
+const HEXES_PER_ROW = 4;
+
+const HEXES = Array.from(Array(HEXES_PER_ROW * ROWS).keys());
 
 export const HexGrid = () => {
   const [playerPosition, setPlayerPosition] = createSignal(0);
@@ -16,31 +18,22 @@ export const HexGrid = () => {
           const isCurrentPlayerHex = createMemo(
             () => index === playerPosition(),
           );
+          const isEvenRow =
+            index === HEXES_PER_ROW ||
+            Math.floor(index / HEXES_PER_ROW) % 2 > 0;
 
           return (
-            <div
-              classList={{
-                [styles.hex]: true,
-                [styles.current]: isCurrentPlayerHex(),
-              }}
+            <Hex
+              hasUnit={isCurrentPlayerHex}
+              isUnitSelected={isPlayerSelected}
+              isShifted={isEvenRow}
               onClick={() => {
                 if (!isCurrentPlayerHex() && isPlayerSelected()) {
-                  console.log({
-                    isCurrentPlayerHex,
-                    isPlayerSelected: isPlayerSelected(),
-                  });
                   setPlayerPosition(index);
                   setPlayerSelected(false);
                 }
               }}
-            >
-              <Show when={isCurrentPlayerHex()}>
-                <Player
-                  isSelected={isPlayerSelected}
-                  setSelected={setPlayerSelected}
-                />
-              </Show>
-            </div>
+            />
           );
         }}
       </Index>

@@ -1,43 +1,46 @@
 import { Accessor, Setter, Show, createMemo } from "solid-js";
+import { SetStoreFunction, produce } from "solid-js/store";
 import type { THex } from "../../types/Hex";
+import { HexState } from "../../constants/hex";
 import { Player } from "../Player/Player";
 import styles from "./Hex.module.css";
-import { SetStoreFunction, produce } from "solid-js/store";
 
 type HexProps = {
   hex: Accessor<THex>;
   setMap: SetStoreFunction<THex[][]>;
-  selectedHex: Accessor<{ hex: THex | null; count: number }>;
-  setSelectedHex: Setter<{ hex: THex | null; count: number }>;
+  selectedHex: Accessor<{ hex: THex; step: number } | null>;
+  setSelectedHex: Setter<{ hex: THex; step: number } | null>;
 };
 
 export const Hex = (props: HexProps) => {
+  const hasUnit = createMemo(() => Boolean(props.hex().unitId));
+
   const isHexSelected = createMemo(
     () => props.hex().id === props.selectedHex()?.hex?.id,
   );
 
   const isUnitSelected = createMemo(
     () =>
+      Boolean(props.selectedHex()?.hex?.unitId) &&
       props.hex().unitId === props.selectedHex()?.hex?.unitId &&
-      props.selectedHex().count === 1,
+      props.selectedHex()?.step === HexState.UnitSelected,
   );
 
-  const handleUnselect = () => {
-    props.setSelectedHex({ hex: null, count: 0 });
-  };
-
-  const handleClickHexWithUnit = () => {
-    if (props.selectedHex().count === 0) {
-      props.setSelectedHex({ hex: props.hex(), count: 1 });
-    } else if (props.selectedHex().count === 1) {
-      props.setSelectedHex({ hex: props.hex(), count: 2 });
-    } else if (props.selectedHex().count === 2) {
-      handleUnselect();
+  const nextStep = createMemo(() => {
+    if (!isHexSelected()) {
+      return hasUnit() ? HexState.UnitSelected : HexState.GroundSelected;
     }
-  };
+
+    if (isHexSelected() && hasUnit()) {
+      if (props.selectedHex()?.step === HexState.UnitSelected) {
+        return HexState.GroundSelected;
+      }
+    }
+
+    return HexState.Idle;
+  });
 
   const handleMoveUnit = () => {
-    console.log("handleMoveUnit");
     props.setMap(
       produce((s) => {
         const nextUnitHex = s[props.hex().row][props.hex().col];
@@ -50,26 +53,24 @@ export const Hex = (props: HexProps) => {
     );
   };
 
-  const handleClickHexWithoutUnit = () => {
-    if (isHexSelected()) {
-      handleUnselect();
+  const handleClick = () => {
+    if (
+      !hasUnit() &&
+      props.selectedHex()?.hex?.unitId &&
+      props.selectedHex()?.step === HexState.UnitSelected
+    ) {
+      handleMoveUnit();
+      props.setSelectedHex(null);
+
       return;
     }
 
-    if (props.selectedHex()?.hex?.unitId) {
-      handleMoveUnit();
-      handleUnselect();
-    } else {
-      props.setSelectedHex({ hex: props.hex(), count: 1 });
-    }
-  };
+    const nextValue =
+      nextStep() === HexState.Idle
+        ? null
+        : { hex: props.hex(), step: nextStep() };
 
-  const handleClick = () => {
-    if (props.hex().unitId) {
-      handleClickHexWithUnit();
-    } else {
-      handleClickHexWithoutUnit();
-    }
+    props.setSelectedHex(nextValue);
   };
 
   return (
@@ -80,7 +81,7 @@ export const Hex = (props: HexProps) => {
       }}
       onClick={handleClick}
     >
-      <Show when={props.hex().unitId}>
+      <Show when={hasUnit()}>
         <Player id={props.hex().unitId} isSelected={isUnitSelected} />
       </Show>
     </div>

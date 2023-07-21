@@ -29,9 +29,9 @@ const initialMap: THex[][] = SIDE.map((_, rowIndex) =>
 export const HexGrid = () => {
   const [map, setMap] = createStore(initialMap);
   const [selectedHex, setSelectedHex] = createSignal<{
-    hex: THex | null;
-    count: number;
-  }>({ hex: null, count: 0 });
+    hex: THex;
+    step: number;
+  } | null>(null);
 
   onMount(() => {
     setMap(
@@ -47,7 +47,7 @@ export const HexGrid = () => {
 
   return (
     <div class={styles.root}>
-      <div>{selectedHex().count}</div>
+      <div>{selectedHex()?.step}</div>
       <Index each={map}>
         {(row, rowIndex) => {
           return (

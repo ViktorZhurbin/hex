@@ -1,13 +1,29 @@
 .hex {
+  /* Colors */
+  --color-default: #4fc08d;
+  --color-hover: #35a171;
+  --color-selected: #1d5039;
+
+  --bg-color: var(--color-default);
+
   cursor: pointer;
   position: relative;
-  background-color: var(--color-hex-default);
+  background-color: var(--bg-color);
   height: var(--hex-height);
   margin: var(--hex-border) 0;
   width: var(--hex-width);
   display: flex;
   align-items: center;
   justify-content: center;
+}
+
+.hex:hover {
+  --bg-color: var(--color-hover);
+}
+
+.hex.selected,
+.hex:hover.selected {
+  --bg-color: var(--color-selected);
 }
 
 .hex::after,
@@ -21,21 +37,9 @@
 }
 .hex::after {
   top: 100%;
-  border-top: var(--hex-border) solid var(--color-hex-default);
+  border-top: var(--hex-border) solid var(--bg-color);
 }
 .hex::before {
   bottom: 100%;
-  border-bottom: var(--hex-border) solid var(--color-hex-default);
-}
-
-.hex:not(.current):hover {
-  background-color: var(--color-hover);
-}
-
-.hex:not(.current):hover::after {
-  border-top-color: var(--color-hover);
-}
-
-.hex:not(.current):hover::before {
-  border-bottom-color: var(--color-hover);
+  border-bottom: var(--hex-border) solid var(--bg-color);
 }

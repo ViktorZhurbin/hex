@@ -8,10 +8,6 @@
   --hex-margin: calc(var(--hex-width) / 2);
   --hex-border: calc(var(--hex-margin) / 1.73 /* sqrt(3) */);
 
-  /* Colors */
-  --color-hex-default: #4fc08d;
-  --color-hover: #35a171;
-
   /* Hexagons */
   display: grid;
   grid-auto-rows: calc(var(--hex-width) - 28.87px / 2);

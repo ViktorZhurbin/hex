@@ -1,8 +1,14 @@
-import { Index, createSignal, onMount } from "solid-js";
+import {
+  Index,
+  createEffect,
+  createSignal,
+  createUniqueId,
+  onMount,
+} from "solid-js";
 import { createStore, produce } from "solid-js/store";
-import styles from "./HexGrid.module.css";
-import { Hex } from "../Hex/Hex";
 import type { THex } from "../../types/Hex";
+import { Hex } from "../Hex/Hex";
+import styles from "./HexGrid.module.css";
 
 const HEXES_PER_SIDE = 4;
 
@@ -11,10 +17,10 @@ const SIDE = Array.from(Array(HEXES_PER_SIDE));
 const initialMap: THex[][] = SIDE.map((_, rowIndex) =>
   SIDE.map((_, colIndex) => {
     return {
-      coords: {
-        row: rowIndex,
-        col: colIndex,
-      },
+      id: createUniqueId(),
+      row: rowIndex,
+      col: colIndex,
+      cell: [rowIndex, colIndex],
       unitId: null,
     };
   }),
@@ -22,12 +28,10 @@ const initialMap: THex[][] = SIDE.map((_, rowIndex) =>
 
 export const HexGrid = () => {
   const [map, setMap] = createStore(initialMap);
-  const [selectedHex, setSelectedHex] = createSignal<THex["coords"] | null>(
-    null,
-  );
-  const [selectedUnit, setSelectedUnit] = createSignal<THex["unitId"] | null>(
-    null,
-  );
+  const [selectedHex, setSelectedHex] = createSignal<{
+    hex: THex | null;
+    count: number;
+  }>({ hex: null, count: 0 });
 
   onMount(() => {
     setMap(
@@ -37,8 +41,13 @@ export const HexGrid = () => {
     );
   });
 
+  createEffect(() => {
+    console.log(selectedHex());
+  });
+
   return (
     <div class={styles.root}>
+      <div>{selectedHex().count}</div>
       <Index each={map}>
         {(row, rowIndex) => {
           return (
@@ -49,18 +58,14 @@ export const HexGrid = () => {
               }}
             >
               <Index each={row()}>
-                {(hex) => {
-                  return (
-                    <Hex
-                      hex={hex}
-                      setMap={setMap}
-                      selectedHex={selectedHex}
-                      setSelectedHex={setSelectedHex}
-                      selectedUnit={selectedUnit}
-                      setSelectedUnit={setSelectedUnit}
-                    />
-                  );
-                }}
+                {(hex) => (
+                  <Hex
+                    hex={hex}
+                    setMap={setMap}
+                    selectedHex={selectedHex}
+                    setSelectedHex={setSelectedHex}
+                  />
+                )}
               </Index>
             </div>
           );

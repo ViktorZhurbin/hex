@@ -1,4 +1,4 @@
-import { Accessor, Setter, Show, createEffect, createMemo } from "solid-js";
+import { Accessor, Setter, Show, createMemo } from "solid-js";
 import type { THex } from "../../types/Hex";
 import { Player } from "../Player/Player";
 import styles from "./Hex.module.css";
@@ -7,68 +7,76 @@ import { SetStoreFunction, produce } from "solid-js/store";
 type HexProps = {
   hex: Accessor<THex>;
   setMap: SetStoreFunction<THex[][]>;
-  selectedHex: Accessor<THex["coords"] | null>;
-  setSelectedHex: Setter<THex["coords"] | null>;
-  selectedUnit: Accessor<THex["unitId"] | null>;
-  setSelectedUnit: Setter<THex["unitId"] | null>;
+  selectedHex: Accessor<{ hex: THex | null; count: number }>;
+  setSelectedHex: Setter<{ hex: THex | null; count: number }>;
 };
 
 export const Hex = (props: HexProps) => {
-  const isSelected = createMemo(
-    () =>
-      props.selectedHex()?.row === props.hex().coords.row &&
-      props.selectedHex()?.col === props.hex().coords.col,
+  const isHexSelected = createMemo(
+    () => props.hex().id === props.selectedHex()?.hex?.id,
   );
 
-  createEffect(() => {
-    console.log(isSelected());
-  });
+  const isUnitSelected = createMemo(
+    () =>
+      props.hex().unitId === props.selectedHex()?.hex?.unitId &&
+      props.selectedHex().count === 1,
+  );
 
-  const handleClickSelected = () => {
-    if (props.hex().unitId) {
-      props.setSelectedHex(props.hex().coords);
-    } else {
-      props.setSelectedHex(null);
+  const handleUnselect = () => {
+    props.setSelectedHex({ hex: null, count: 0 });
+  };
+
+  const handleClickHexWithUnit = () => {
+    if (props.selectedHex().count === 0) {
+      props.setSelectedHex({ hex: props.hex(), count: 1 });
+    } else if (props.selectedHex().count === 1) {
+      props.setSelectedHex({ hex: props.hex(), count: 2 });
+    } else if (props.selectedHex().count === 2) {
+      handleUnselect();
     }
   };
 
-  const handleClickUnselected = () => {
-    if (props.selectedUnit() && !props.hex().unitId) {
-      props.setMap(
-        produce((s) => {
-          // TODO: clear units prev position
-          s[props.hex().coords.row][props.hex().coords.col].unitId =
-            props.selectedUnit();
-        }),
-      );
+  const handleMoveUnit = () => {
+    console.log("handleMoveUnit");
+    props.setMap(
+      produce((s) => {
+        const nextUnitHex = s[props.hex().row][props.hex().col];
+        nextUnitHex.unitId = props.selectedHex()?.hex?.unitId ?? null;
 
-      props.setSelectedUnit(null);
+        const prevUnitHex =
+          s[props.selectedHex()!.hex!.row][props.selectedHex()!.hex!.col];
+        prevUnitHex.unitId = null;
+      }),
+    );
+  };
+
+  const handleClickHexWithoutUnit = () => {
+    if (isHexSelected()) {
+      handleUnselect();
+      return;
     }
 
-    if (props.hex().unitId) {
-      props.setSelectedUnit(props.hex().unitId);
+    if (props.selectedHex()?.hex?.unitId) {
+      handleMoveUnit();
+      handleUnselect();
     } else {
-      props.setSelectedHex(props.hex().coords);
+      props.setSelectedHex({ hex: props.hex(), count: 1 });
     }
   };
 
   const handleClick = () => {
-    if (isSelected()) {
-      handleClickSelected();
+    if (props.hex().unitId) {
+      handleClickHexWithUnit();
     } else {
-      handleClickUnselected();
+      handleClickHexWithoutUnit();
     }
   };
-
-  const isUnitSelected = createMemo(
-    () => props.hex().unitId === props.selectedUnit(),
-  );
 
   return (
     <div
       classList={{
         [styles.hex]: true,
-        [styles.current]: Boolean(props.hex().unitId),
+        [styles.selected]: isHexSelected(),
       }}
       onClick={handleClick}
     >

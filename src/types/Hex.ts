@@ -1,10 +1,10 @@
 import { TUnit } from "./Unit";
 
 type THex = {
-  coords: {
-    row: number;
-    col: number;
-  };
+  id: string;
+  row: number;
+  col: number;
+  cell: [number, number];
   unitId: TUnit["id"] | null;
 };
 

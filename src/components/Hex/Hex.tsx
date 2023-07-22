@@ -1,42 +1,50 @@
 import { Accessor, Setter, Show } from "solid-js";
 
-import { HexState } from "../../constants/hex";
 import { THex } from "../../types/map";
-import { TSelectedHex } from "../HexGrid/HexGrid";
+import { TSelectedHex, TSelectedUnit } from "../HexGrid/HexGrid";
 import { Unit } from "../Unit/Unit";
 import styles from "./Hex.module.css";
-import { getState } from "./state";
 
 type HexProps = {
   hex: Accessor<THex>;
   isHighlighted: boolean;
   onMoveUnit: (next: THex) => void;
   selectedHex: Accessor<TSelectedHex>;
+  selectedUnit: Accessor<TSelectedUnit>;
   setSelectedHex: Setter<TSelectedHex>;
+  setSelectedUnit: Setter<TSelectedUnit>;
 };
 
 export const Hex = (props: HexProps) => {
-  let { hex, isHighlighted, onMoveUnit, selectedHex, setSelectedHex } =
-    $destructure(props);
+  let {
+    hex,
+    isHighlighted,
+    onMoveUnit,
+    selectedHex,
+    selectedUnit,
+    setSelectedHex,
+    setSelectedUnit,
+  } = $destructure(props);
 
   const hasUnit = $(Boolean(hex().unitId));
-  const state = $(getState(hasUnit));
   const isSelected = $(hex().id === selectedHex()?.id);
-
-  const hasSelectedHexUnitSelected = $(selectedHex()?.state === HexState.Unit);
-  const isUnitSelected = $(isSelected && hasUnit && hasSelectedHexUnitSelected);
+  const isUnitSelected = $(selectedUnit()?.unitId === hex().unitId);
 
   const handleClick = () => {
-    if (!hasUnit && isHighlighted && hasSelectedHexUnitSelected) {
+    if (!hasUnit && isHighlighted && selectedUnit()) {
       onMoveUnit(hex());
 
       return;
     }
 
-    isSelected ? state.next() : state.init();
+    if (hex().unitId) {
+      setSelectedUnit(hex());
+      setSelectedHex(null);
+      return;
+    }
 
-    const nextHex = state.current ? { ...hex(), state: state.current } : null;
-    setSelectedHex(nextHex);
+    setSelectedHex(isSelected ? null : hex());
+    setSelectedUnit(null);
   };
 
   return (

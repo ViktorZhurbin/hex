@@ -3,25 +3,23 @@ import { createStore, produce } from "solid-js/store";
 
 import type { THex } from "../../types/map";
 
-import { HexState } from "../../constants/hex";
 import { TTribes } from "../../constants/tribe";
-import { TUnitInstance } from "../../types/unit";
 import { getIsEven, getMapHex } from "../../utils/map";
 import { Hex } from "../Hex/Hex";
 import styles from "./HexGrid.module.css";
 import { getInitialMap, getStartUnitPositions } from "./helpers/map";
 import { getInitialUnits, getMovementArea } from "./helpers/unit";
 
-export type TSelectedHex = (THex & { state: string }) | null;
+export type TSelectedHex = THex | null;
+export type TSelectedUnit = THex | null;
 
 export const HexGrid = (props: { tribes: TTribes[] }) => {
   const [map, setMap] = createStore(getInitialMap(props.tribes.length));
   const [units] = createStore(getInitialUnits(props.tribes));
 
   const [selectedHex, setSelectedHex] = createSignal<TSelectedHex>(null);
-  const [selectedUnit, setSelectedUnit] = createSignal<TUnitInstance | null>(
-    null,
-  );
+  const [selectedUnit, setSelectedUnit] = createSignal<TSelectedUnit>(null);
+
   const [moveArea, setMoveArea] = createSignal<
     ReturnType<typeof getMovementArea>
   >({});
@@ -39,24 +37,20 @@ export const HexGrid = (props: { tribes: TTribes[] }) => {
     });
   });
 
+  const hexWithUnit = $(selectedUnit());
   $effect(() => {
-    const hex = $(selectedHex());
-    const isUnitSelected = hex?.state === HexState.Unit;
-
-    if (!isUnitSelected || !hex?.unitId) {
+    if (!hexWithUnit?.unitId) {
       setMoveArea({ cols: [], rows: [] });
       return;
     }
 
-    const unit = units[hex.unitId];
+    const unit = units[hexWithUnit.unitId];
 
-    setMoveArea(getMovementArea(hex, unit.speed));
+    setMoveArea(getMovementArea(hexWithUnit, unit.speed));
   });
 
   const handleMoveUnit = (nextHex: THex) => {
-    const prevHex = selectedHex();
-
-    if (!prevHex?.unitId || nextHex.unitId) {
+    if (!hexWithUnit || nextHex.unitId) {
       return;
     }
 
@@ -66,8 +60,8 @@ export const HexGrid = (props: { tribes: TTribes[] }) => {
 
     setMap(
       produce((map) => {
-        getMapHex(map, nextHex).unitId = prevHex.unitId;
-        getMapHex(map, prevHex).unitId = null;
+        getMapHex(map, nextHex).unitId = hexWithUnit.unitId;
+        getMapHex(map, hexWithUnit).unitId = null;
       }),
     );
     setSelectedHex(null);
@@ -75,7 +69,6 @@ export const HexGrid = (props: { tribes: TTribes[] }) => {
 
   return (
     <div class={styles.root}>
-      <div>{selectedHex()?.state}</div>
       <Index each={map}>
         {(row, rowIndex) => {
           return (
@@ -97,7 +90,9 @@ export const HexGrid = (props: { tribes: TTribes[] }) => {
                       isHighlighted={isHighlighted}
                       onMoveUnit={handleMoveUnit}
                       selectedHex={selectedHex}
+                      selectedUnit={selectedUnit}
                       setSelectedHex={setSelectedHex}
+                      setSelectedUnit={setSelectedUnit}
                     />
                   );
                 }}

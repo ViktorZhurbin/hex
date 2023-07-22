@@ -1,9 +1,9 @@
 import { TUnitInstance } from "./unit";
 
 type THex = {
+  col: number;
   id: string;
   row: number;
-  col: number;
   unitId?: TUnitInstance["id"] | null;
 };
 

@@ -1,14 +1,16 @@
 import { Index, createSignal, onMount } from "solid-js";
-import type { THex } from "../../types/map";
-import styles from "./HexGrid.module.css";
-import { Hex } from "../Hex/Hex";
 import { createStore, produce } from "solid-js/store";
+
+import type { THex } from "../../types/map";
+
+import { HexState } from "../../constants/hex";
+import { TTribes } from "../../constants/tribe";
+import { TUnitInstance } from "../../types/unit";
+import { getIsEven, getMapHex } from "../../utils/map";
+import { Hex } from "../Hex/Hex";
+import styles from "./HexGrid.module.css";
 import { getInitialMap, getStartUnitPositions } from "./helpers/map";
 import { getInitialUnits, getMovementArea } from "./helpers/unit";
-import { TTribes } from "../../constants/tribe";
-import { getMapHex, getIsEven } from "../../utils/map";
-import { HexState } from "../../constants/hex";
-import { TUnitInstance } from "../../types/unit";
 
 export type TSelectedHex = (THex & { state: string }) | null;
 
@@ -96,9 +98,9 @@ export const HexGrid = (props: { tribes: TTribes[] }) => {
                     <Hex
                       hex={hex}
                       isHighlighted={isHighlighted}
+                      onMoveUnit={handleMoveUnit}
                       selectedHex={selectedHex}
                       setSelectedHex={setSelectedHex}
-                      onMoveUnit={handleMoveUnit}
                     />
                   );
                 }}

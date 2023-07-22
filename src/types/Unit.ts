@@ -13,4 +13,4 @@ type TUnitInstance = TUnit & {
   tribe: TTribes;
 };
 
-export type { TUnitBase, TUnit, TUnitInstance };
+export type { TUnit, TUnitBase, TUnitInstance };

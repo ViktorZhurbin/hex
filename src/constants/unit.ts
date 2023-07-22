@@ -19,4 +19,4 @@ const Units: Record<TUnitTypes, TUnit> = {
 };
 
 export type { TUnitTypes };
-export { Units, UnitTypes };
+export { UnitTypes, Units };

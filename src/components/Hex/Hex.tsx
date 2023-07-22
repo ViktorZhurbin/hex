@@ -1,21 +1,22 @@
 import { Accessor, Setter, Show } from "solid-js";
+
 import { HexState } from "../../constants/hex";
+import { THex } from "../../types/map";
+import { TSelectedHex } from "../HexGrid/HexGrid";
 import { Unit } from "../Unit/Unit";
 import styles from "./Hex.module.css";
 import { getState } from "./state";
-import { TSelectedHex } from "../HexGrid/HexGrid";
-import { THex } from "../../types/map";
 
 type HexProps = {
   hex: Accessor<THex>;
   isHighlighted: boolean;
+  onMoveUnit: (next: THex) => void;
   selectedHex: Accessor<TSelectedHex>;
   setSelectedHex: Setter<TSelectedHex>;
-  onMoveUnit: (next: THex) => void;
 };
 
 export const Hex = (props: HexProps) => {
-  let { hex, isHighlighted, selectedHex, setSelectedHex, onMoveUnit } =
+  let { hex, isHighlighted, onMoveUnit, selectedHex, setSelectedHex } =
     $destructure(props);
 
   const hasUnit = $(Boolean(hex().unitId));
@@ -42,8 +43,8 @@ export const Hex = (props: HexProps) => {
     <div
       classList={{
         [styles.hex]: true,
-        [styles.isSelected]: isSelected,
         [styles.isHighlighted]: !isSelected && isHighlighted,
+        [styles.isSelected]: isSelected,
       }}
       onClick={handleClick}
     >

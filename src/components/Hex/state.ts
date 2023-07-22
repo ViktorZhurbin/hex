@@ -1,15 +1,14 @@
 import { HexState } from "../../constants/hex";
 
 type TGetState = {
-  current: string | null;
-  startingPoint: string;
+  current: null | string;
   init: () => void;
   next: () => void;
+  startingPoint: string;
 };
 
 export const getState = (hasUnit: boolean): TGetState => ({
   current: null,
-  startingPoint: hasUnit ? HexState.Unit : HexState.Ground,
   init() {
     this.current = this.startingPoint;
   },
@@ -26,4 +25,5 @@ export const getState = (hasUnit: boolean): TGetState => ({
         break;
     }
   },
+  startingPoint: hasUnit ? HexState.Unit : HexState.Ground,
 });

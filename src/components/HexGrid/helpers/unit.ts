@@ -28,7 +28,7 @@ const getInitialUnits = (tribes: TTribes[]) =>
   }, {});
 
 const getAvailablePositions = (
-  positionIndex: THex["row" | "col"],
+  positionIndex: THex["col" | "row"],
   speed: number,
 ) => {
   const positions = [];

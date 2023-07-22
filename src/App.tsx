@@ -1,5 +1,5 @@
-import { HexGrid } from "./components/HexGrid/HexGrid";
 import "./App.css";
+import { HexGrid } from "./components/HexGrid/HexGrid";
 import { Tribes } from "./constants/tribe";
 
 function App() {

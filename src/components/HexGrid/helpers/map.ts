@@ -11,9 +11,9 @@ const getInitialMap = (tribeCount = 1): TMap => {
 
   return side.map((_, row) =>
     side.map((_, col) => ({
-      row,
       col,
       id: $uid(),
+      row,
     })),
   );
 };
@@ -39,7 +39,7 @@ const getStartUnitPositions = (
 ) => {
   const startPositions = getStartPositions(tribes.length);
 
-  return tribes.reduce<{ unitId: string; row: number; col: number }[]>(
+  return tribes.reduce<{ col: number; row: number; unitId: string }[]>(
     (acc, tribe, index) => {
       const tribeUnitIds = Object.values(units).flatMap((unit) =>
         unit.tribe === tribe ? unit.id : [],
@@ -52,9 +52,9 @@ const getStartUnitPositions = (
         const offset = isEven ? index + 1 : index - 1;
 
         acc.push({
-          unitId,
           col: startCol + offset,
           row: startRow + offset,
+          unitId,
         });
       });
 

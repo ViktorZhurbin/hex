@@ -6,7 +6,8 @@
   "extends": [
     "eslint:recommended",
     "plugin:@typescript-eslint/recommended",
-    "plugin:solid/typescript"
+    "plugin:solid/typescript",
+    "plugin:perfectionist/recommended-natural"
   ],
   "overrides": [],
   "parser": "@typescript-eslint/parser",
@@ -14,7 +15,7 @@
     "ecmaVersion": "latest",
     "sourceType": "module"
   },
-  "plugins": ["@typescript-eslint", "solid"],
+  "plugins": ["@typescript-eslint", "solid", "perfectionist"],
   "rules": {
     "solid/reactivity": "off",
     "prefer-const": "off"

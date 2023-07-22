@@ -18,7 +18,6 @@ export const HexGrid = (props: { tribes: TTribes[] }) => {
   const [units] = createStore(getInitialUnits(props.tribes));
 
   const [selectedHex, setSelectedHex] = createSignal<TSelectedHex>(null);
-  const [selectedUnit, setSelectedUnit] = createSignal<TSelectedUnit>(null);
 
   const [moveArea, setMoveArea] = createSignal<
     ReturnType<typeof getMovementArea>
@@ -31,40 +30,71 @@ export const HexGrid = (props: { tribes: TTribes[] }) => {
       setMap(
         produce((map) => {
           const hex = getMapHex(map, { col, row });
-          hex.unitId = unitId;
+          if (hex) {
+            hex.unitId = unitId;
+          }
         }),
       );
     });
   });
 
-  const hexWithUnit = $(selectedUnit());
-  $effect(() => {
-    if (!hexWithUnit?.unitId) {
-      setMoveArea({ cols: [], rows: [] });
-      return;
-    }
-
-    const unit = units[hexWithUnit.unitId];
-
-    setMoveArea(getMovementArea(hexWithUnit, unit.speed));
-  });
+  const currentHex = $(selectedHex());
 
   const handleMoveUnit = (nextHex: THex) => {
-    if (!hexWithUnit || nextHex.unitId) {
-      return;
-    }
-
-    if (!moveArea()[nextHex.row]?.includes(nextHex.col)) {
+    console.log({
+      col: nextHex.col,
+      moveArea: moveArea(),
+      row: nextHex.row,
+    });
+    if (!currentHex || !moveArea()[nextHex.row]?.includes(nextHex.col)) {
+      console.log(
+        "handleMoveUnit",
+        !moveArea()[nextHex.row]?.includes(nextHex.col),
+      );
       return;
     }
 
     setMap(
       produce((map) => {
-        getMapHex(map, nextHex).unitId = hexWithUnit.unitId;
-        getMapHex(map, hexWithUnit).unitId = null;
+        const nextTile = getMapHex(map, nextHex);
+        if (nextTile) {
+          nextTile.unitId = currentHex?.unitId;
+        }
+        const prevTile = getMapHex(map, currentHex);
+        if (prevTile) {
+          prevTile.unitId = null;
+        }
       }),
     );
-    setSelectedHex(null);
+  };
+
+  const handleClickHex = (nextHex: THex) => {
+    if (nextHex?.id === currentHex?.id) {
+      setMoveArea({});
+      setSelectedHex(null);
+      return;
+    }
+
+    if (
+      currentHex?.unitId &&
+      !nextHex.unitId &&
+      moveArea()[nextHex.row]?.includes(nextHex.col)
+    ) {
+      handleMoveUnit(nextHex);
+      setSelectedHex(null);
+      setMoveArea({});
+      return;
+    }
+
+    setSelectedHex(nextHex);
+
+    if (nextHex?.unitId) {
+      const unit = units[nextHex.unitId];
+
+      setMoveArea(getMovementArea(nextHex, unit.speed));
+    } else {
+      setMoveArea({});
+    }
   };
 
   return (
@@ -88,11 +118,8 @@ export const HexGrid = (props: { tribes: TTribes[] }) => {
                     <Hex
                       hex={hex}
                       isHighlighted={isHighlighted}
-                      onMoveUnit={handleMoveUnit}
+                      onClick={handleClickHex}
                       selectedHex={selectedHex}
-                      selectedUnit={selectedUnit}
-                      setSelectedHex={setSelectedHex}
-                      setSelectedUnit={setSelectedUnit}
                     />
                   );
                 }}

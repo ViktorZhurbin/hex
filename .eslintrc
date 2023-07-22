@@ -18,6 +18,7 @@
   "plugins": ["@typescript-eslint", "solid", "perfectionist"],
   "rules": {
     "solid/reactivity": "off",
-    "prefer-const": "off"
+    "prefer-const": "off",
+    "perfectionist/sort-objects": "warn"
   }
 }

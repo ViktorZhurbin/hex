@@ -1,4 +1,4 @@
-import { TUnit } from "../types/Unit";
+import { TUnit } from "../types/unit";
 
 const UnitTypes = {
   typeOne: "typeOne",

@@ -1,4 +1,4 @@
-import { TUnitInstance } from "./Unit";
+import { TUnitInstance } from "./unit";
 
 type THex = {
   id: string;
@@ -7,4 +7,6 @@ type THex = {
   unitId?: TUnitInstance["id"] | null;
 };
 
-export type { THex };
+type TMap = THex[][];
+
+export type { THex, TMap };

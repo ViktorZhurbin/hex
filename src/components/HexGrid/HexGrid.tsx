@@ -1,9 +1,9 @@
-import { Index, createSignal, onMount } from "solid-js";
+import { Index, createSignal } from "solid-js";
 import type { THex } from "../../types/Hex";
 import { Hex } from "../Hex/Hex";
 import styles from "./HexGrid.module.css";
 import { createStore, produce } from "solid-js/store";
-import { getMapHex, initialMap } from "./helpers";
+import { getMapHex, getInitialMap } from "./helpers";
 
 export type TSelectedHex =
   | (THex & {
@@ -12,17 +12,9 @@ export type TSelectedHex =
   | null;
 
 export const HexGrid = () => {
-  const [map, setMap] = createStore(initialMap);
+  const [map, setMap] = createStore(getInitialMap());
 
   const [selectedHex, setSelectedHex] = createSignal<TSelectedHex>(null);
-
-  onMount(() => {
-    setMap(
-      $produce((s) => {
-        s[0][0].unitId = "id";
-      }),
-    );
-  });
 
   const handleMoveUnit = (nextHex: THex) => {
     const prevHex = selectedHex();

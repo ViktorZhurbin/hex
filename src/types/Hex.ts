@@ -1,10 +1,10 @@
-import { TUnit } from "./Unit";
+import { TUnitInstance } from "./Unit";
 
 type THex = {
   id: string;
   row: number;
   col: number;
-  unitId?: TUnit["id"] | null;
+  unitId?: TUnitInstance["id"] | null;
 };
 
 export type { THex };

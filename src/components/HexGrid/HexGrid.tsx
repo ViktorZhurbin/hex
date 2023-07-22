@@ -2,6 +2,7 @@ import { Index, createSignal, onMount } from "solid-js";
 import type { THex } from "../../types/Hex";
 import { Hex } from "../Hex/Hex";
 import styles from "./HexGrid.module.css";
+import { createStore, produce } from "solid-js/store";
 
 const HEXES_PER_SIDE = 4;
 
@@ -14,7 +15,6 @@ const initialMap: THex[][] = SIDE.map((_, rowIndex) =>
       row: rowIndex,
       col: colIndex,
       cell: [rowIndex, colIndex],
-      unitId: null,
     };
   }),
 );
@@ -26,7 +26,7 @@ export type TSelectedHex =
   | null;
 
 export const HexGrid = () => {
-  const [map, setMap] = $store(initialMap);
+  const [map, setMap] = createStore(initialMap);
 
   const [selectedHex, setSelectedHex] = createSignal<TSelectedHex>(null);
 
@@ -37,6 +37,22 @@ export const HexGrid = () => {
       }),
     );
   });
+
+  const handleMoveUnit = (nextHex: THex) => {
+    const prevHex = selectedHex();
+
+    if (!prevHex?.unitId || nextHex.unitId) {
+      return;
+    }
+
+    setMap(
+      produce((s) => {
+        s[nextHex.row][nextHex.col].unitId = prevHex.unitId;
+        s[prevHex.row][prevHex.col].unitId = null;
+      }),
+    );
+    setSelectedHex(null);
+  };
 
   return (
     <div class={styles.root}>
@@ -54,9 +70,9 @@ export const HexGrid = () => {
                 {(hex) => (
                   <Hex
                     hex={hex}
-                    setMap={setMap}
                     selectedHex={selectedHex}
                     setSelectedHex={setSelectedHex}
+                    onMoveUnit={handleMoveUnit}
                   />
                 )}
               </Index>

@@ -5,7 +5,7 @@ type THex = {
   row: number;
   col: number;
   cell: [number, number];
-  unitId: TUnit["id"] | null;
+  unitId?: TUnit["id"] | null;
 };
 
 export type { THex };

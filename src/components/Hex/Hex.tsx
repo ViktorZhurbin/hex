@@ -1,5 +1,4 @@
 import { Accessor, Setter, Show } from "solid-js";
-import { SetStoreFunction, produce } from "solid-js/store";
 import type { THex } from "../../types/Hex";
 import { HexState } from "../../constants/hex";
 import { Player } from "../Player/Player";
@@ -9,13 +8,13 @@ import { TSelectedHex } from "../HexGrid/HexGrid";
 
 type HexProps = {
   hex: Accessor<THex>;
-  setMap: SetStoreFunction<THex[][]>;
   selectedHex: Accessor<TSelectedHex>;
   setSelectedHex: Setter<TSelectedHex>;
+  onMoveUnit: (next: THex) => void;
 };
 
 export const Hex = (props: HexProps) => {
-  let { hex, setMap, selectedHex, setSelectedHex } = $destructure(props);
+  let { hex, selectedHex, setSelectedHex, onMoveUnit } = $destructure(props);
 
   const hasUnit = $(Boolean(hex().unitId));
   const state = $(getState(hasUnit));
@@ -24,26 +23,9 @@ export const Hex = (props: HexProps) => {
   const hasSelectedHexUnitSelected = $(selectedHex()?.state === HexState.Unit);
   const isUnitSelected = $(isSelected && hasUnit && hasSelectedHexUnitSelected);
 
-  const handleMoveUnit = () => {
-    setMap(
-      produce((s) => {
-        if (!selectedHex()?.unitId) {
-          return;
-        }
-
-        const nextUnitHex = s[hex().row][hex().col];
-        nextUnitHex.unitId = selectedHex()?.unitId ?? null;
-
-        const prevUnitHex = s[selectedHex()!.row][selectedHex()!.col];
-        prevUnitHex.unitId = null;
-      }),
-    );
-  };
-
   const handleClick = () => {
     if (!hasUnit && hasSelectedHexUnitSelected) {
-      handleMoveUnit();
-      setSelectedHex(null);
+      onMoveUnit(hex());
 
       return;
     }

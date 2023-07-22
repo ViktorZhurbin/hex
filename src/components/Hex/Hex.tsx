@@ -18,16 +18,11 @@ export const Hex = (props: HexProps) => {
   let { hex, setMap, selectedHex, setSelectedHex } = $destructure(props);
 
   const hasUnit = $(Boolean(hex().unitId));
-  const isSelected = $(hex().id === selectedHex()?.id);
   const state = $(getState(hasUnit));
+  const isSelected = $(hex().id === selectedHex()?.id);
 
-  const isUnitSelected = $(
-    isSelected && hasUnit && selectedHex()?.state === HexState.Unit,
-  );
-
-  const selectedHexHasUnitSelected = $(
-    Boolean(selectedHex()?.unitId) && selectedHex()?.state === HexState.Unit,
-  );
+  const hasSelectedHexUnitSelected = $(selectedHex()?.state === HexState.Unit);
+  const isUnitSelected = $(isSelected && hasUnit && hasSelectedHexUnitSelected);
 
   const handleMoveUnit = () => {
     setMap(
@@ -46,7 +41,7 @@ export const Hex = (props: HexProps) => {
   };
 
   const handleClick = () => {
-    if (!hasUnit && selectedHexHasUnitSelected) {
+    if (!hasUnit && hasSelectedHexUnitSelected) {
       handleMoveUnit();
       setSelectedHex(null);
 

@@ -3,6 +3,7 @@
   --color-default: #4fc08d;
   --color-hover: #35a171;
   --color-selected: #1d5039;
+  --color-highlighted: #ba71af;
 
   --bg-color: var(--color-default);
 
@@ -21,9 +22,14 @@
   --bg-color: var(--color-hover);
 }
 
-.hex.selected,
-.hex:hover.selected {
+.hex.isSelected,
+.hex:hover.isSelected {
   --bg-color: var(--color-selected);
+}
+
+.hex.isHighlighted,
+.hex:hover.isHighlighted {
+  --bg-color: var(--color-highlighted);
 }
 
 .hex::after,

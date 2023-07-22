@@ -5,9 +5,10 @@ import styles from "./HexGrid.module.css";
 import { createStore, produce } from "solid-js/store";
 import { getInitialMap, getStartUnitPositions } from "./helpers/map";
 // import { TUnitInstance } from "../../types/Unit";
-import { getInitialUnitsByTribe } from "./helpers/unit";
+import { getInitialUnits, getMovementArea } from "./helpers/unit";
 import { TTribes } from "../../constants/tribe";
 import { getMapHex } from "../../utils/map";
+import { HexState } from "../../constants/hex";
 
 export type TSelectedHex =
   | (THex & {
@@ -20,7 +21,9 @@ export const HexGrid = (props: { tribes: TTribes[] }) => {
   const [units] = createStore(getInitialUnits(props.tribes));
 
   const [selectedHex, setSelectedHex] = createSignal<TSelectedHex>(null);
-  // const [selectedUnit, setSelectedUnit] = createSignal<TUnitInstance | null>(null);
+  const [highlighted, setHighlighted] = createSignal<
+    ReturnType<typeof getMovementArea>
+  >({ rows: [], cols: [] });
 
   onMount(() => {
     const startPositions = getStartUnitPositions(props.tribes, units);
@@ -35,13 +38,31 @@ export const HexGrid = (props: { tribes: TTribes[] }) => {
     });
   });
 
-  const [selectedHex, setSelectedHex] = createSignal<TSelectedHex>(null);
-  // const [selectedUnit, setSelectedUnit] = createSignal<TUnitInstance | null>(null);
+  $effect(() => {
+    const hex = $(selectedHex());
+    const isUnitSelected = hex?.state === HexState.Unit;
+
+    if (!isUnitSelected || !hex?.unitId) {
+      setHighlighted({ rows: [], cols: [] });
+      return;
+    }
+
+    const unit = units[hex.unitId];
+
+    setHighlighted(getMovementArea(hex, unit.speed));
+  });
 
   const handleMoveUnit = (nextHex: THex) => {
     const prevHex = selectedHex();
 
     if (!prevHex?.unitId || nextHex.unitId) {
+      return;
+    }
+
+    if (
+      !highlighted().rows.includes(nextHex.row) ||
+      !highlighted().cols.includes(nextHex.col)
+    ) {
       return;
     }
 
@@ -67,14 +88,22 @@ export const HexGrid = (props: { tribes: TTribes[] }) => {
               }}
             >
               <Index each={row()}>
-                {(hex) => (
-                  <Hex
-                    hex={hex}
-                    selectedHex={selectedHex}
-                    setSelectedHex={setSelectedHex}
-                    onMoveUnit={handleMoveUnit}
-                  />
-                )}
+                {(hex) => {
+                  const isHighlighted = $(
+                    highlighted().rows.includes(hex().row) &&
+                      highlighted().cols.includes(hex().col),
+                  );
+
+                  return (
+                    <Hex
+                      hex={hex}
+                      isHighlighted={isHighlighted}
+                      selectedHex={selectedHex}
+                      setSelectedHex={setSelectedHex}
+                      onMoveUnit={handleMoveUnit}
+                    />
+                  );
+                }}
               </Index>
             </div>
           );

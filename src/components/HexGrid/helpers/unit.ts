@@ -1,5 +1,6 @@
 import { TTribes, Tribes } from "../../../constants/tribe";
 import { TUnitTypes, UnitTypes, Units } from "../../../constants/unit";
+import { THex } from "../../../types/map";
 import { TUnitInstance } from "../../../types/unit";
 
 const START_UNITS_BY_TRIBE: Record<string, TUnitTypes[]> = {
@@ -25,9 +26,30 @@ const getInitialUnits = (tribes: TTribes[]) =>
     return { ...acc, ...getTribeUnits(tribe) };
   }, {});
 
-      return acc;
-    },
-    {},
-  );
+const getAvailablePositions = (
+  positionIndex: THex["row" | "col"],
+  speed: number,
+) => {
+  const positions = [];
+  const min = positionIndex - speed;
+  const max = positionIndex + speed;
+
+  for (let i = min; i <= max; i++) {
+    if (i >= 0) {
+      positions.push(i);
+    }
+  }
+
+  return positions;
+};
+
+const getMovementArea = (hex: THex, speed: number) => {
+  const { row, col } = hex;
+
+  return {
+    rows: getAvailablePositions(row, speed),
+    cols: getAvailablePositions(col, speed),
+  };
+};
 
 export { getInitialUnits, getMovementArea };

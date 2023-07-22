@@ -7,7 +7,7 @@ import { getInitialMap, getStartUnitPositions } from "./helpers/map";
 // import { TUnitInstance } from "../../types/Unit";
 import { getInitialUnits, getMovementArea } from "./helpers/unit";
 import { TTribes } from "../../constants/tribe";
-import { getMapHex } from "../../utils/map";
+import { getMapHex, getIsEven } from "../../utils/map";
 import { HexState } from "../../constants/hex";
 
 export type TSelectedHex =
@@ -23,7 +23,7 @@ export const HexGrid = (props: { tribes: TTribes[] }) => {
   const [selectedHex, setSelectedHex] = createSignal<TSelectedHex>(null);
   const [highlighted, setHighlighted] = createSignal<
     ReturnType<typeof getMovementArea>
-  >({ rows: [], cols: [] });
+  >({});
 
   onMount(() => {
     const startPositions = getStartUnitPositions(props.tribes, units);
@@ -84,14 +84,13 @@ export const HexGrid = (props: { tribes: TTribes[] }) => {
             <div
               classList={{
                 [styles.row]: true,
-                [styles.isEven]: (rowIndex + 1) % 2 === 0,
+                [styles.isEven]: getIsEven(rowIndex),
               }}
             >
               <Index each={row()}>
                 {(hex) => {
                   const isHighlighted = $(
-                    highlighted().rows.includes(hex().row) &&
-                      highlighted().cols.includes(hex().col),
+                    highlighted()[hex().row]?.includes(hex().col),
                   );
 
                   return (

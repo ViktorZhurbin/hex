@@ -22,7 +22,7 @@ export const HexGrid = (props: { tribes: TTribes[] }) => {
   const [selectedUnit, setSelectedUnit] = createSignal<TUnitInstance | null>(
     null,
   );
-  const [highlighted, setHighlighted] = createSignal<
+  const [moveArea, setMoveArea] = createSignal<
     ReturnType<typeof getMovementArea>
   >({});
 
@@ -44,13 +44,13 @@ export const HexGrid = (props: { tribes: TTribes[] }) => {
     const isUnitSelected = hex?.state === HexState.Unit;
 
     if (!isUnitSelected || !hex?.unitId) {
-      setHighlighted({ cols: [], rows: [] });
+      setMoveArea({ cols: [], rows: [] });
       return;
     }
 
     const unit = units[hex.unitId];
 
-    setHighlighted(getMovementArea(hex, unit.speed));
+    setMoveArea(getMovementArea(hex, unit.speed));
   });
 
   const handleMoveUnit = (nextHex: THex) => {
@@ -60,10 +60,7 @@ export const HexGrid = (props: { tribes: TTribes[] }) => {
       return;
     }
 
-    if (
-      !highlighted().rows.includes(nextHex.row) ||
-      !highlighted().cols.includes(nextHex.col)
-    ) {
+    if (!moveArea()[nextHex.row]?.includes(nextHex.col)) {
       return;
     }
 
@@ -91,7 +88,7 @@ export const HexGrid = (props: { tribes: TTribes[] }) => {
               <Index each={row()}>
                 {(hex) => {
                   const isHighlighted = $(
-                    highlighted()[hex().row]?.includes(hex().col),
+                    moveArea()[hex().row]?.includes(hex().col),
                   );
 
                   return (

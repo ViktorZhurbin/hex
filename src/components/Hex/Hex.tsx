@@ -1,7 +1,7 @@
 import { Accessor, Setter, Show } from "solid-js";
 import type { THex } from "../../types/Hex";
 import { HexState } from "../../constants/hex";
-import { Player } from "../Player/Player";
+import { Unit } from "../Unit/Unit";
 import styles from "./Hex.module.css";
 import { getState } from "./state";
 import { TSelectedHex } from "../HexGrid/HexGrid";
@@ -45,7 +45,7 @@ export const Hex = (props: HexProps) => {
       onClick={handleClick}
     >
       <Show when={hasUnit}>
-        <Player id={hex().unitId} isSelected={isUnitSelected} />
+        <Unit id={hex().unitId} isSelected={isUnitSelected} />
       </Show>
     </div>
   );

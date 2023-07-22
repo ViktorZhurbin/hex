@@ -1,12 +1,12 @@
-import styles from "./Player.module.css";
+import styles from "./Unit.module.css";
 import { THex } from "../../types/Hex";
 
-type PlayerProps = {
+type UnitProps = {
   id: THex["unitId"];
   isSelected: boolean;
 };
 
-export const Player = (props: PlayerProps) => {
+export const Unit = (props: UnitProps) => {
   return (
     <div
       classList={{ [styles.root]: true, [styles.selected]: props.isSelected }}

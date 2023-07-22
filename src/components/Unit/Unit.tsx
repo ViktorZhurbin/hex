@@ -1,5 +1,5 @@
 import styles from "./Unit.module.css";
-import { THex } from "../../types/Hex";
+import { THex } from "../../types/map";
 
 type UnitProps = {
   id: THex["unitId"];

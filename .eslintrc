@@ -15,5 +15,8 @@
     "sourceType": "module"
   },
   "plugins": ["@typescript-eslint", "solid"],
-  "rules": {}
+  "rules": {
+    "solid/reactivity": "off",
+    "prefer-const": "off"
+  }
 }

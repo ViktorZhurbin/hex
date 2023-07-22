@@ -19,6 +19,6 @@
   gap: var(--hex-between);
 }
 
-.rowEven {
+.isEven {
   margin-left: calc(var(--hex-width) / 2 + var(--hex-between) / 2);
 }

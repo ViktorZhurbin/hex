@@ -44,7 +44,7 @@ export const HexGrid = () => {
             <div
               classList={{
                 [styles.row]: true,
-                [styles.rowEven]: (rowIndex + 1) % 2 === 0,
+                [styles.isEven]: (rowIndex + 1) % 2 === 0,
               }}
             >
               <Index each={row()}>

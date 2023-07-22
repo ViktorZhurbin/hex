@@ -9,6 +9,9 @@
     "preview": "vite preview"
   },
   "prettier": {},
+  "browserslist": [
+    "defaults"
+  ],
   "dependencies": {
     "solid-js": "^1.7.8"
   },

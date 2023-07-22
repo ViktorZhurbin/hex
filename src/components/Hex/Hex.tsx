@@ -1,77 +1,74 @@
-import { Accessor, Setter, Show, createMemo } from "solid-js";
+import { Accessor, Setter, Show } from "solid-js";
 import { SetStoreFunction, produce } from "solid-js/store";
 import type { THex } from "../../types/Hex";
 import { HexState } from "../../constants/hex";
 import { Player } from "../Player/Player";
 import styles from "./Hex.module.css";
 import { getState } from "./state";
+import { TSelectedHex } from "../HexGrid/HexGrid";
 
 type HexProps = {
   hex: Accessor<THex>;
   setMap: SetStoreFunction<THex[][]>;
-  selectedHex: Accessor<{ hex: THex; state: string } | null>;
-  setSelectedHex: Setter<{ hex: THex; state: string } | null>;
+  selectedHex: Accessor<TSelectedHex>;
+  setSelectedHex: Setter<TSelectedHex>;
 };
 
 export const Hex = (props: HexProps) => {
-  const hasUnit = createMemo(() => Boolean(props.hex().unitId));
+  let { hex, setMap, selectedHex, setSelectedHex } = $destructure(props);
 
-  const isSelected = createMemo(
-    () => props.hex().id === props.selectedHex()?.hex?.id,
+  const hasUnit = $(Boolean(hex().unitId));
+  const isSelected = $(hex().id === selectedHex()?.id);
+  const state = $(getState(hasUnit));
+
+  const isUnitSelected = $(
+    isSelected && hasUnit && selectedHex()?.state === HexState.Unit,
   );
 
-  const state = createMemo(() => getState(hasUnit()));
-
-  const isUnitSelected = createMemo(
-    () =>
-      isSelected() && hasUnit() && props.selectedHex()?.state === HexState.Unit,
-  );
-
-  const selectedHexHasUnitSelected = createMemo(
-    () =>
-      Boolean(props.selectedHex()?.hex?.unitId) &&
-      props.selectedHex()?.state === HexState.Unit,
+  const selectedHexHasUnitSelected = $(
+    Boolean(selectedHex()?.unitId) && selectedHex()?.state === HexState.Unit,
   );
 
   const handleMoveUnit = () => {
-    props.setMap(
+    setMap(
       produce((s) => {
-        const nextUnitHex = s[props.hex().row][props.hex().col];
-        nextUnitHex.unitId = props.selectedHex()?.hex?.unitId ?? null;
+        if (!selectedHex()?.unitId) {
+          return;
+        }
 
-        const prevUnitHex =
-          s[props.selectedHex()!.hex!.row][props.selectedHex()!.hex!.col];
+        const nextUnitHex = s[hex().row][hex().col];
+        nextUnitHex.unitId = selectedHex()?.unitId ?? null;
+
+        const prevUnitHex = s[selectedHex()!.row][selectedHex()!.col];
         prevUnitHex.unitId = null;
       }),
     );
   };
 
   const handleClick = () => {
-    if (!hasUnit() && selectedHexHasUnitSelected()) {
+    if (!hasUnit && selectedHexHasUnitSelected) {
       handleMoveUnit();
-      props.setSelectedHex(null);
+      setSelectedHex(null);
 
       return;
     }
 
-    isSelected() ? state().next() : state().init();
-    const nextValue = state().current
-      ? { hex: props.hex(), state: state().current as string }
-      : null;
+    isSelected ? state.next() : state.init();
 
-    props.setSelectedHex(nextValue);
+    const nextHex = state.current ? { ...hex(), state: state.current } : null;
+    setSelectedHex(nextHex);
   };
 
   return (
     <div
       classList={{
         [styles.hex]: true,
-        [styles.selected]: isSelected(),
+        [styles.selected]: isSelected,
       }}
       onClick={handleClick}
     >
-      <Show when={hasUnit()}>
-        <Player id={props.hex().unitId} isSelected={isUnitSelected} />
+      <Show when={hasUnit}>
+        <Player id={hex().unitId} isSelected={isUnitSelected} />
       </Show>
     </div>
   );

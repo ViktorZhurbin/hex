@@ -1,5 +1,4 @@
-import { Index, createSignal, createUniqueId, onMount } from "solid-js";
-import { createStore, produce } from "solid-js/store";
+import { Index, createSignal, onMount } from "solid-js";
 import type { THex } from "../../types/Hex";
 import { Hex } from "../Hex/Hex";
 import styles from "./HexGrid.module.css";
@@ -11,7 +10,7 @@ const SIDE = Array.from(Array(HEXES_PER_SIDE));
 const initialMap: THex[][] = SIDE.map((_, rowIndex) =>
   SIDE.map((_, colIndex) => {
     return {
-      id: createUniqueId(),
+      id: $uid(),
       row: rowIndex,
       col: colIndex,
       cell: [rowIndex, colIndex],
@@ -20,16 +19,20 @@ const initialMap: THex[][] = SIDE.map((_, rowIndex) =>
   }),
 );
 
+export type TSelectedHex =
+  | (THex & {
+      state: string;
+    })
+  | null;
+
 export const HexGrid = () => {
-  const [map, setMap] = createStore(initialMap);
-  const [selectedHex, setSelectedHex] = createSignal<{
-    hex: THex;
-    state: string;
-  } | null>(null);
+  const [map, setMap] = $store(initialMap);
+
+  const [selectedHex, setSelectedHex] = createSignal<TSelectedHex>(null);
 
   onMount(() => {
     setMap(
-      produce((s) => {
+      $produce((s) => {
         s[0][0].unitId = "id";
       }),
     );

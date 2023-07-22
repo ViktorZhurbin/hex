@@ -1,10 +1,4 @@
-import {
-  Index,
-  createEffect,
-  createSignal,
-  createUniqueId,
-  onMount,
-} from "solid-js";
+import { Index, createSignal, createUniqueId, onMount } from "solid-js";
 import { createStore, produce } from "solid-js/store";
 import type { THex } from "../../types/Hex";
 import { Hex } from "../Hex/Hex";
@@ -30,7 +24,7 @@ export const HexGrid = () => {
   const [map, setMap] = createStore(initialMap);
   const [selectedHex, setSelectedHex] = createSignal<{
     hex: THex;
-    step: number;
+    state: string;
   } | null>(null);
 
   onMount(() => {
@@ -41,13 +35,9 @@ export const HexGrid = () => {
     );
   });
 
-  createEffect(() => {
-    console.log(selectedHex());
-  });
-
   return (
     <div class={styles.root}>
-      <div>{selectedHex()?.step}</div>
+      <div>{selectedHex()?.state}</div>
       <Index each={map}>
         {(row, rowIndex) => {
           return (

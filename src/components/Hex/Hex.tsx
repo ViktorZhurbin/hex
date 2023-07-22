@@ -4,41 +4,34 @@ import type { THex } from "../../types/Hex";
 import { HexState } from "../../constants/hex";
 import { Player } from "../Player/Player";
 import styles from "./Hex.module.css";
+import { getState } from "./state";
 
 type HexProps = {
   hex: Accessor<THex>;
   setMap: SetStoreFunction<THex[][]>;
-  selectedHex: Accessor<{ hex: THex; step: number } | null>;
-  setSelectedHex: Setter<{ hex: THex; step: number } | null>;
+  selectedHex: Accessor<{ hex: THex; state: string } | null>;
+  setSelectedHex: Setter<{ hex: THex; state: string } | null>;
 };
 
 export const Hex = (props: HexProps) => {
   const hasUnit = createMemo(() => Boolean(props.hex().unitId));
 
-  const isHexSelected = createMemo(
+  const isSelected = createMemo(
     () => props.hex().id === props.selectedHex()?.hex?.id,
   );
 
+  const state = createMemo(() => getState(hasUnit()));
+
   const isUnitSelected = createMemo(
     () =>
-      Boolean(props.selectedHex()?.hex?.unitId) &&
-      props.hex().unitId === props.selectedHex()?.hex?.unitId &&
-      props.selectedHex()?.step === HexState.UnitSelected,
+      isSelected() && hasUnit() && props.selectedHex()?.state === HexState.Unit,
   );
 
-  const nextStep = createMemo(() => {
-    if (!isHexSelected()) {
-      return hasUnit() ? HexState.UnitSelected : HexState.GroundSelected;
-    }
-
-    if (isHexSelected() && hasUnit()) {
-      if (props.selectedHex()?.step === HexState.UnitSelected) {
-        return HexState.GroundSelected;
-      }
-    }
-
-    return HexState.Idle;
-  });
+  const selectedHexHasUnitSelected = createMemo(
+    () =>
+      Boolean(props.selectedHex()?.hex?.unitId) &&
+      props.selectedHex()?.state === HexState.Unit,
+  );
 
   const handleMoveUnit = () => {
     props.setMap(
@@ -54,21 +47,17 @@ export const Hex = (props: HexProps) => {
   };
 
   const handleClick = () => {
-    if (
-      !hasUnit() &&
-      props.selectedHex()?.hex?.unitId &&
-      props.selectedHex()?.step === HexState.UnitSelected
-    ) {
+    if (!hasUnit() && selectedHexHasUnitSelected()) {
       handleMoveUnit();
       props.setSelectedHex(null);
 
       return;
     }
 
-    const nextValue =
-      nextStep() === HexState.Idle
-        ? null
-        : { hex: props.hex(), step: nextStep() };
+    isSelected() ? state().next() : state().init();
+    const nextValue = state().current
+      ? { hex: props.hex(), state: state().current as string }
+      : null;
 
     props.setSelectedHex(nextValue);
   };
@@ -77,7 +66,7 @@ export const Hex = (props: HexProps) => {
     <div
       classList={{
         [styles.hex]: true,
-        [styles.selected]: isHexSelected(),
+        [styles.selected]: isSelected(),
       }}
       onClick={handleClick}
     >

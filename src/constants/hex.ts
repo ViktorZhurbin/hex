@@ -1,5 +1,5 @@
 export const HexState = {
-  Idle: 0,
-  UnitSelected: 1,
-  GroundSelected: 2,
+  Idle: "Idle",
+  Unit: "Unit",
+  Ground: "Ground",
 };

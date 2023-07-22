@@ -3,21 +3,7 @@ import type { THex } from "../../types/Hex";
 import { Hex } from "../Hex/Hex";
 import styles from "./HexGrid.module.css";
 import { createStore, produce } from "solid-js/store";
-
-const HEXES_PER_SIDE = 4;
-
-const SIDE = Array.from(Array(HEXES_PER_SIDE));
-
-const initialMap: THex[][] = SIDE.map((_, rowIndex) =>
-  SIDE.map((_, colIndex) => {
-    return {
-      id: $uid(),
-      row: rowIndex,
-      col: colIndex,
-      cell: [rowIndex, colIndex],
-    };
-  }),
-);
+import { getMapHex, initialMap } from "./helpers";
 
 export type TSelectedHex =
   | (THex & {
@@ -46,9 +32,9 @@ export const HexGrid = () => {
     }
 
     setMap(
-      produce((s) => {
-        s[nextHex.row][nextHex.col].unitId = prevHex.unitId;
-        s[prevHex.row][prevHex.col].unitId = null;
+      produce((map) => {
+        getMapHex(map, nextHex).unitId = prevHex.unitId;
+        getMapHex(map, prevHex).unitId = null;
       }),
     );
     setSelectedHex(null);

@@ -12,7 +12,7 @@ const getTribeUnits = (tribe: TTribes) => {
     (acc, type) => {
       const id = $uid();
 
-      acc[id] = { id, ...Units[type] };
+      acc[id] = { id, tribe, ...Units[type] };
 
       return acc;
     },
@@ -20,14 +20,14 @@ const getTribeUnits = (tribe: TTribes) => {
   );
 };
 
-const getInitialUnitsByTribe = (tribes: TTribes[]) =>
-  tribes.reduce<Record<string, ReturnType<typeof getTribeUnits>>>(
-    (acc, tribe) => {
-      acc[tribe] = getTribeUnits(tribe);
+const getInitialUnits = (tribes: TTribes[]) =>
+  tribes.reduce<ReturnType<typeof getTribeUnits>>((acc, tribe) => {
+    return { ...acc, ...getTribeUnits(tribe) };
+  }, {});
 
       return acc;
     },
     {},
   );
 
-export { getInitialUnitsByTribe };
+export { getInitialUnits, getMovementArea };

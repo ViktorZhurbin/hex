@@ -1,6 +1,6 @@
 import { TTribes } from "../../../constants/tribe";
 import { TMap } from "../../../types/map";
-import { getInitialUnitsByTribe } from "./unit";
+import { getInitialUnits } from "./unit";
 
 const SIDE_LENGTH_PER_TRIBE = 3;
 const getSide = (tribeCount: number) =>
@@ -35,13 +35,16 @@ const getStartPositions = (tribeCount: number) => {
 
 const getStartUnitPositions = (
   tribes: TTribes[],
-  unitsByTribe: ReturnType<typeof getInitialUnitsByTribe>,
+  units: ReturnType<typeof getInitialUnits>,
 ) => {
   const startPositions = getStartPositions(tribes.length);
 
   return tribes.reduce<{ unitId: string; row: number; col: number }[]>(
     (acc, tribe, index) => {
-      const tribeUnitIds = Object.keys(unitsByTribe[tribe]);
+      const tribeUnitIds = Object.values(units).flatMap((unit) =>
+        unit.tribe === tribe ? unit.id : [],
+      );
+
       const [startRow, startCol] = startPositions[index];
 
       tribeUnitIds.forEach((unitId, index) => {

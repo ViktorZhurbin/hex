@@ -17,12 +17,13 @@ export type TSelectedHex =
 
 export const HexGrid = (props: { tribes: TTribes[] }) => {
   const [map, setMap] = createStore(getInitialMap(props.tribes.length));
-  const [unitsByTribe, setUnitsByTribe] = createStore(
-    getInitialUnitsByTribe(props.tribes),
-  );
+  const [units] = createStore(getInitialUnits(props.tribes));
+
+  const [selectedHex, setSelectedHex] = createSignal<TSelectedHex>(null);
+  // const [selectedUnit, setSelectedUnit] = createSignal<TUnitInstance | null>(null);
 
   onMount(() => {
-    const startPositions = getStartUnitPositions(props.tribes, unitsByTribe);
+    const startPositions = getStartUnitPositions(props.tribes, units);
 
     startPositions.forEach(({ unitId, row, col }) => {
       setMap(

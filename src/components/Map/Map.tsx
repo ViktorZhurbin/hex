@@ -21,7 +21,7 @@ export const Map = ({ tribesCount }: MapProps) => {
   // state$.grid.set(grid);
 
   return (
-    <group rotation-y={Math.PI / 2}>
+    <group rotation-x={10} rotation-y={Math.PI / 2}>
       {grid.map((hex) => (
         <MapTile hex={hex} key={`${hex.x}_${hex.y}`} />
       ))}

@@ -8,10 +8,12 @@ import { Map } from "./components/Map/Map";
 function App() {
   return (
     <Canvas
-      camera={{
-        // isPerspectiveCamera: true,
-        position: [1.5, 1.5, 0],
-      }}
+      camera={
+        {
+          // isPerspectiveCamera: true,
+          // position: [0, 0, 0],
+        }
+      }
     >
       <ambientLight />
       <pointLight position={[4, 1, 10]} />

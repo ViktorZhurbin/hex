@@ -23,13 +23,13 @@ export const Plane = () => {
   };
 
   return (
-    <>
+    <group>
       <mesh onPointerMove={handlePointerMove} rotation-x={-Math.PI / 2}>
         <planeGeometry args={GRID_SIZE} />
         <meshStandardMaterial side={DoubleSide} visible={false} />
       </mesh>
       <gridHelper args={GRID_SIZE} />
       <HighlightSquare position={highlightPosition} />
-    </>
+    </group>
   );
 };

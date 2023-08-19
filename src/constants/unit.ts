@@ -1,13 +1,13 @@
 import { TUnit } from "../types/unit";
 
-const UnitTypes = {
+export const UnitTypes = {
   typeOne: "typeOne",
   typeTwo: "typeTwo",
 } as const;
 
-type TUnitTypes = keyof typeof UnitTypes;
+export type TUnitTypes = keyof typeof UnitTypes;
 
-const Units: Record<TUnitTypes, TUnit> = {
+export const Units: Record<TUnitTypes, TUnit> = {
   [UnitTypes.typeOne]: {
     speed: 2,
     type: UnitTypes.typeOne,
@@ -17,6 +17,3 @@ const Units: Record<TUnitTypes, TUnit> = {
     type: UnitTypes.typeTwo,
   },
 };
-
-export type { TUnitTypes };
-export { UnitTypes, Units };

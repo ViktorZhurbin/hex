@@ -1,6 +1,6 @@
 import { Grid, Orientation, defineHex, spiral } from "honeycomb-grid";
 
-// import { state$ } from "../../store/state";
+import { state$ } from "../../store/state";
 import { getGridSide } from "../../utils/map/getGridSide";
 import { MapTile } from "./MapTile";
 
@@ -13,16 +13,13 @@ export const Map = ({ tribesCount }: MapProps) => {
 
   const HexTile = defineHex({ orientation: Orientation.POINTY });
 
-  const grid = new Grid(
-    HexTile,
-    spiral({ radius: gridSide, start: [0, 0] }),
-  ).toArray();
+  const grid = new Grid(HexTile, spiral({ radius: gridSide, start: [0, 0] }));
 
-  // state$.grid.set(grid);
+  state$.grid.set(grid);
 
   return (
     <group rotation-x={10} rotation-y={Math.PI / 2}>
-      {grid.map((hex) => (
+      {grid.toArray().map((hex) => (
         <MapTile hex={hex} key={`${hex.x}_${hex.y}`} />
       ))}
     </group>

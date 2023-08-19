@@ -15,11 +15,11 @@ function App() {
         }
       }
     >
+      {/* <Plane /> */}
       <ambientLight />
       <pointLight position={[4, 1, 10]} />
-      {/* <Plane /> */}
       <Map tribesCount={2} />
-
+      {/* map-like camera controls */}
       <MapControls makeDefault maxDistance={50} minDistance={5} />
       {/* <OrbitControls /> */}
     </Canvas>

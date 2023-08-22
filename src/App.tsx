@@ -5,7 +5,6 @@ import { Map } from "./components/Map/Map";
 import { Plane } from "./components/Plane/Plane";
 import { Units } from "./components/Units/Units";
 import { Tribes } from "./constants/tribe";
-// import { Plane } from "./components/Plane/Plane";
 
 const tribes = [Tribes.tribeOne, Tribes.tribeTwo];
 
@@ -13,9 +12,11 @@ function App() {
   return (
     <Canvas camera={{ fov: 40, position: [10, 10, 0] }}>
       <ambientLight />
-      <pointLight position={[4, 1, 10]} />
+
+      <Plane />
       <Map tribesCount={tribes.length} />
       <Units tribes={tribes} />
+
       {/* map-like camera controls */}
       <MapControls
         enableRotate={false}

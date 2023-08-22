@@ -23,7 +23,17 @@ function App() {
       <Map tribesCount={tribes.length} />
       <Units tribes={tribes} />
       {/* map-like camera controls */}
-      <MapControls makeDefault maxDistance={50} minDistance={5} />
+      <MapControls
+        enableRotate={false}
+        makeDefault
+        // maxAzimuthAngle={0}
+        maxDistance={50}
+        // maxPolarAngle={Math.PI / 4}
+        // minAzimuthAngle={0}
+        minDistance={5}
+        // minPolarAngle={Math.PI / 4}
+        minZoom={10}
+      />
       {/* <OrbitControls /> */}
     </Canvas>
   );

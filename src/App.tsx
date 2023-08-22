@@ -2,6 +2,7 @@ import { MapControls } from "@react-three/drei/core/MapControls";
 import { Canvas } from "@react-three/fiber";
 
 import { Map } from "./components/Map/Map";
+import { Plane } from "./components/Plane/Plane";
 import { Units } from "./components/Units/Units";
 import { Tribes } from "./constants/tribe";
 // import { Plane } from "./components/Plane/Plane";
@@ -16,7 +17,7 @@ function App() {
         position: [10, 10, 0],
       }}
     >
-      {/* <Plane /> */}
+      <Plane />
       <ambientLight />
       <pointLight position={[4, 1, 10]} />
       <Map tribesCount={tribes.length} />

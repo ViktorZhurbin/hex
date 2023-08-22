@@ -1,4 +1,3 @@
-// import { OrbitControls } from "@react-three/drei";
 import { MapControls } from "@react-three/drei/core/MapControls";
 import { Canvas } from "@react-three/fiber";
 
@@ -26,15 +25,11 @@ function App() {
       <MapControls
         enableRotate={false}
         makeDefault
-        // maxAzimuthAngle={0}
         maxDistance={50}
-        // maxPolarAngle={Math.PI / 4}
-        // minAzimuthAngle={0}
         minDistance={5}
-        // minPolarAngle={Math.PI / 4}
         minZoom={10}
+        panSpeed={2}
       />
-      {/* <OrbitControls /> */}
     </Canvas>
   );
 }

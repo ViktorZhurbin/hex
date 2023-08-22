@@ -11,13 +11,7 @@ const tribes = [Tribes.tribeOne, Tribes.tribeTwo];
 
 function App() {
   return (
-    <Canvas
-      camera={{
-        // isPerspectiveCamera: true,
-        position: [10, 10, 0],
-      }}
-    >
-      <Plane />
+    <Canvas camera={{ fov: 40, position: [10, 10, 0] }}>
       <ambientLight />
       <pointLight position={[4, 1, 10]} />
       <Map tribesCount={tribes.length} />

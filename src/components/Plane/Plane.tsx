@@ -5,7 +5,8 @@ import { DoubleSide } from "three/src/constants.js";
 
 import { HighlightSquare } from "./HighlightSquare/HighlightSquare";
 
-const GRID_SIZE: [width: number, height: number] = [20, 20];
+const GRID_SIDE = 20;
+const GRID_SIZE: [width: number, height: number] = [GRID_SIDE, GRID_SIDE];
 
 export const Plane = () => {
   const [highlightPosition, setHighlightPosition] = useState<Vector3 | null>(
@@ -23,7 +24,7 @@ export const Plane = () => {
   };
 
   return (
-    <group>
+    <group position={[0, -0.25, 0]}>
       <mesh onPointerMove={handlePointerMove} rotation-x={-Math.PI / 2}>
         <planeGeometry args={GRID_SIZE} />
         <meshStandardMaterial side={DoubleSide} visible={false} />

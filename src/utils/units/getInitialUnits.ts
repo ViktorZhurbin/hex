@@ -4,7 +4,7 @@ import { TUnitInstance } from "../../types/unit";
 
 export const getInitialUnits = (tribes: TTribe[]) => {
   return tribes.reduce<{
-    allUnits: Record<string, TUnitInstance>;
+    unitsById: Record<TUnitInstance["id"], TUnitInstance>;
     unitsByTribe: TUnitInstance[][];
   }>(
     (acc, tribe) => {
@@ -17,7 +17,7 @@ export const getInitialUnits = (tribes: TTribe[]) => {
           ...Units[unitType],
         };
 
-        acc.allUnits[unit.id] = unit;
+        acc.unitsById[unit.id] = unit;
 
         return unit;
       });
@@ -26,6 +26,6 @@ export const getInitialUnits = (tribes: TTribe[]) => {
 
       return acc;
     },
-    { allUnits: {}, unitsByTribe: [] },
+    { unitsById: {}, unitsByTribe: [] },
   );
 };

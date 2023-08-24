@@ -1,8 +1,9 @@
 import { ring } from "honeycomb-grid";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
 import { TTribe } from "../../constants/tribe";
 import { state$ } from "../../store/state";
+import { TUnitInstance } from "../../types/unit";
 import { getGridSide } from "../../utils/map/getGridSide";
 import { getInitialUnits } from "../../utils/units/getInitialUnits";
 import { Unit } from "../Unit/Unit";
@@ -10,26 +11,28 @@ import { Unit } from "../Unit/Unit";
 export const Units = ({ tribes }: { tribes: TTribe[] }) => {
   const [units] = useState(() => getInitialUnits(tribes));
 
-  useEffect(() => {
-    state$.units.set(units.allUnits);
-  }, [units.allUnits]);
+  state$.units.set(units.unitsById);
 
-  const startPositions = getStartHexes(tribes);
+  const startPositions = getStartHexes(units.unitsByTribe);
 
   return units.unitsByTribe.map((tribeUnits, tribeIndex) => {
     return tribeUnits.map((unit, unitIndex) => {
       const hex = startPositions[tribeIndex][unitIndex];
 
-      return hex && <Unit key={unit.id} position={[hex.x, 0.5, hex.y]} />;
+      state$.hexToUnitId[hex.toString()].set(unit.id);
+
+      if (hex) {
+        return (
+          <Unit key={unit.id} position={[hex.x, 0.5, hex.y]} unit={unit} />
+        );
+      }
     });
   });
 };
 
-function getStartHexes(tribes: TTribe[]) {
-  const { unitsByTribe } = getInitialUnits(tribes);
-
+function getStartHexes(unitsByTribe: TUnitInstance[][]) {
   const grid = state$.grid.get();
-  const gridSide = getGridSide(tribes.length);
+  const gridSide = getGridSide(unitsByTribe.length);
 
   const traverser = ring({ center: [0, 0], start: [gridSide - 1, 0] });
   const ringOfHexes = grid.traverse(traverser).toArray();

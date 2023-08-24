@@ -11,7 +11,13 @@ type MapTileProps = {
 
 export const MapTile = ({ hex, isSelected }: MapTileProps) => {
   const handleClick = () => {
-    state$.selectedHex.set(hex);
+    const unitId = state$.hexToUnitId[hex.toString()].get();
+
+    if (unitId) {
+      state$.selectedUnitId.set(unitId);
+    } else {
+      state$.selectedHex.set(hex);
+    }
   };
 
   return (

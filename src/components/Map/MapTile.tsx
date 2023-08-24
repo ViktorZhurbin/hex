@@ -1,11 +1,25 @@
 import { Edges } from "@react-three/drei/core/Edges";
 import { Hex } from "honeycomb-grid";
 
-export const MapTile = ({ hex }: { hex: Hex }) => {
+import { HexColorsMap } from "../../constants/colors";
+import { state$ } from "../../store/state";
+
+type MapTileProps = {
+  hex: Hex;
+  isSelected: boolean;
+};
+
+export const MapTile = ({ hex, isSelected }: MapTileProps) => {
+  const handleClick = () => {
+    state$.selectedHex.set(hex);
+  };
+
   return (
-    <mesh position={[hex.x, 0, hex.y]} scale={0.99}>
+    <mesh onClick={handleClick} position={[hex.x, 0, hex.y]} scale={0.99}>
       <cylinderGeometry args={[1, 1, 0.5, 6]} />
-      <meshStandardMaterial />
+      <meshStandardMaterial
+        color={isSelected ? HexColorsMap.selected : HexColorsMap.default}
+      />
       <Edges />
     </mesh>
   );

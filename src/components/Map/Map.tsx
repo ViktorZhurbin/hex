@@ -17,11 +17,22 @@ export const Map = ({ tribesCount }: MapProps) => {
 
   state$.grid.set(grid);
 
+  const selectedHexString = state$.selectedHex.use()?.toString();
+  console.log(selectedHexString);
+
   return (
     <group>
-      {grid.toArray().map((hex) => (
-        <MapTile hex={hex} key={`${hex.x}_${hex.y}`} />
-      ))}
+      {grid.toArray().map((hex) => {
+        const isSelected = selectedHexString === hex.toString();
+
+        return (
+          <MapTile
+            hex={hex}
+            isSelected={isSelected}
+            key={`${hex.x}_${hex.y}`}
+          />
+        );
+      })}
     </group>
   );
 };

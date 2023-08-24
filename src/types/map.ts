@@ -1,7 +1,7 @@
 import { TUnitInstance } from "./unit";
 
 type THex = {
-  id: string;
+  id?: string;
   unitId?: TUnitInstance["id"] | null;
 };
 

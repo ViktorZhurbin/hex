@@ -1,3 +1,4 @@
+import { enableReactUse } from "@legendapp/state/config/enableReactUse";
 import { MapControls } from "@react-three/drei/core/MapControls";
 import { Canvas } from "@react-three/fiber";
 
@@ -9,6 +10,8 @@ import { Tribes } from "./constants/tribe";
 const tribes = [Tribes.tribeOne, Tribes.tribeTwo];
 
 function App() {
+  enableReactUse();
+
   return (
     <Canvas camera={{ fov: 40, position: [10, 10, 0] }}>
       <ambientLight />

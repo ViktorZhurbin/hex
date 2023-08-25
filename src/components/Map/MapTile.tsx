@@ -16,7 +16,7 @@ export const MapTile = ({ hex, isSelected }: MapTileProps) => {
   const hexString = hex.toString();
 
   const handleClick = () => {
-    const unitId = state$.hexToUnitId[hex.toString()].get();
+    const unitId = state$.hexToUnitId[hexString].get();
 
     if (unitId) {
       state$.selectedUnitId.set(unitId);
@@ -37,6 +37,7 @@ export const MapTile = ({ hex, isSelected }: MapTileProps) => {
 
   return (
     <mesh onClick={handleClick} position={[hex.x, 0, hex.y]} scale={0.99}>
+      {import.meta.env.DEV && (
       <Text
         fontSize={0.4}
         position={[0.2, TILE_POSITION_Y, 0]}
@@ -44,6 +45,7 @@ export const MapTile = ({ hex, isSelected }: MapTileProps) => {
       >
         {hexString}
       </Text>
+      )}
       <cylinderGeometry args={[1, 1, TILE_POSITION_Y, 6]} />
       <meshStandardMaterial
         color={isSelected ? HexColorsMap.selected : HexColorsMap.default}

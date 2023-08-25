@@ -9,6 +9,7 @@ export type State = {
   moveArea: Grid<Hex> | null;
   selectedHex: Hex | null;
   selectedUnitId: TUnitInstance["id"] | null;
+  unitIdToHex: Record<TUnitInstance["id"], Hex>;
   units: Record<string, TUnitInstance>;
 };
 
@@ -18,5 +19,6 @@ export const state$ = observable<State>({
   moveArea: null,
   selectedHex: null,
   selectedUnitId: null,
+  unitIdToHex: {},
   units: {},
 });

@@ -15,6 +15,16 @@ export const MapTile = ({ hex, isSelected }: MapTileProps) => {
 
     if (unitId) {
       state$.selectedUnitId.set(unitId);
+      return;
+    }
+
+    const selectedUnitId = state$.selectedUnitId.get();
+
+    if (selectedUnitId) {
+      state$.hexToUnitId[hex.toString()].set(selectedUnitId);
+      state$.unitIdToHex[selectedUnitId].set(hex);
+      state$.selectedUnitId.set(null);
+      state$.selectedHex.set(null);
     } else {
       state$.selectedHex.set(hex);
     }

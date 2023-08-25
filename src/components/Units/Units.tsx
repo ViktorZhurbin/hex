@@ -20,11 +20,10 @@ export const Units = ({ tribes }: { tribes: TTribe[] }) => {
       const hex = startPositions[tribeIndex][unitIndex];
 
       state$.hexToUnitId[hex.toString()].set(unit.id);
+      state$.unitIdToHex[unit.id].set(hex);
 
       if (hex) {
-        return (
-          <Unit key={unit.id} position={[hex.x, 0.5, hex.y]} unit={unit} />
-        );
+        return <Unit key={unit.id} unitId={unit.id} />;
       }
     });
   });

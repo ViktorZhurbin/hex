@@ -15,7 +15,7 @@ export const Unit = ({ position, unit }: UnitProps) => {
   return (
     <mesh position={position}>
       <cylinderGeometry args={[0.5, 0.5, 1]} />
-      <meshStandardMaterial color={isSelected ? Colors.grey400 : "white"} />
+      <meshStandardMaterial color={isSelected ? Colors.primary : "white"} />
     </mesh>
   );
 };

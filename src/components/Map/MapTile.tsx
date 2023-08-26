@@ -16,17 +16,18 @@ type MapTileProps = {
 const TILE_POSITION_Y = 0.5;
 
 export const MapTile = ({ hex$ }: MapTileProps) => {
-  const [isSelected, setSelected] = useState(false);
+  const [isTileSelected, setTileSelected] = useState(false);
 
   useObserve(() => {
-    const isSelected = state$.selectedHexId.get() === hex$.get()?.toString();
+    const isTileSelected =
+      state$.selectedHexId.get() === hex$.get()?.toString();
 
-    setSelected(isSelected);
+    setTileSelected(isTileSelected);
   });
 
   const hex = hex$.get();
 
-  // console.log("MapTile rendered", isSelected);
+  // console.log("MapTile rendered", isTileSelected);
 
   if (!hex) {
     return null;
@@ -36,31 +37,55 @@ export const MapTile = ({ hex$ }: MapTileProps) => {
   const handleClick = (event: ThreeEvent<PointerEvent>) => {
     event.stopPropagation();
 
-    const unitId = state$.hexIdToUnitId[hexString].get();
-
-    if (isSelected) {
+    // click selected tile again
+    if (isTileSelected) {
+      console.log("click selected tile again", hexString);
       state$.selectedHexId.set(null);
+      state$.selectedUnitId.set(null);
       return;
     }
 
+    const unitId = state$.hexIdToUnitId[hexString].get();
+    const selectedUnitId = state$.selectedUnitId.get();
+
+    // click selected unit again
+    if (unitId && unitId === selectedUnitId) {
+      console.log("click selected unit again", hexString);
+      state$.selectedUnitId.set(null);
+      return;
+    }
+
+    // tile has unit
     if (unitId) {
+      console.log("tile has unit", hexString);
+      state$.selectedHexId.set(null);
       state$.selectedUnitId.set(unitId);
       return;
     }
 
-    const selectedUnitId = state$.selectedUnitId.get();
-
+    // unit was selected, move it to new tile
     if (selectedUnitId) {
+      console.log("unit was selected, move it to new tile", hexString);
+      // clear previous positions
+      const prevHexId = state$.unitIdToHexId[selectedUnitId].get();
+      state$.hexIdToUnitId[prevHexId].set(null);
+      state$.unitIdToHexId[selectedUnitId].set(null);
+
+      // set new positions
       state$.hexIdToUnitId[hexString].set(selectedUnitId);
       state$.unitIdToHexId[selectedUnitId].set(hexString);
 
+      // clear selections
       state$.selectedUnitId.set(null);
       state$.selectedHexId.set(null);
 
       return;
     }
 
+    // just select a tile
+    console.log("just select a tile", hexString);
     state$.selectedHexId.set(hexString);
+    state$.selectedUnitId.set(null);
   };
 
   return (
@@ -76,7 +101,7 @@ export const MapTile = ({ hex$ }: MapTileProps) => {
       )}
       <cylinderGeometry args={[1, 1, TILE_POSITION_Y, 6]} />
       <meshStandardMaterial
-        color={isSelected ? HexColorsMap.selected : HexColorsMap.default}
+        color={isTileSelected ? HexColorsMap.selected : HexColorsMap.default}
       />
       <Edges />
     </mesh>

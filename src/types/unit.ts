@@ -1,10 +1,7 @@
 import { TTribe } from "../constants/tribe";
 
-type TUnitBase = {
+type TUnit = {
   speed: number;
-};
-
-type TUnit = TUnitBase & {
   type: string;
 };
 
@@ -13,4 +10,4 @@ type TUnitInstance = TUnit & {
   tribe: TTribe;
 };
 
-export type { TUnit, TUnitBase, TUnitInstance };
+export type { TUnit, TUnitInstance };

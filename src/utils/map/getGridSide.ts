@@ -1,4 +1,4 @@
-import { SIDE_LENGTH_PER_TRIBE } from "../../constants/grid";
+const SIDE_LENGTH_PER_TRIBE = 2;
 
 export const getGridSide = (tribesCount: number) =>
   tribesCount * SIDE_LENGTH_PER_TRIBE;

@@ -1,13 +1,11 @@
-import { TUnitTypes, UnitTypes } from "./unit";
+import { UnitTypes } from "./unit";
 
-export const Tribes = {
-  tribeOne: "tribeOne",
-  tribeTwo: "tribeTwo",
-} as const;
+export enum Tribes {
+  tribeOne = "tribeOne",
+  tribeTwo = "tribeTwo",
+}
 
-export type TTribe = keyof typeof Tribes;
-
-export const START_UNITS_BY_TRIBE: Record<string, TUnitTypes[]> = {
+export const START_UNITS_BY_TRIBE: Record<string, UnitTypes[]> = {
   [Tribes.tribeOne]: [UnitTypes.typeOne, UnitTypes.typeTwo],
   [Tribes.tribeTwo]: [UnitTypes.typeOne, UnitTypes.typeTwo],
 };

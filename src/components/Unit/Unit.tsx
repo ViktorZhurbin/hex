@@ -2,10 +2,10 @@ import { useSelector } from "@legendapp/state/react";
 
 import { Colors } from "../../constants/colors";
 import { state$ } from "../../store/state";
-import { TUnitInstance } from "../../types/unit";
+import { UnitInstance } from "../../types/Unit";
 
 type UnitProps = {
-  unitId: TUnitInstance["id"];
+  unitId: UnitInstance["id"];
 };
 
 export const Unit = ({ unitId }: UnitProps) => {

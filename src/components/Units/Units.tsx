@@ -1,7 +1,7 @@
 import { ring } from "honeycomb-grid";
 
 import { state$ } from "../../store/state";
-import { TUnitInstance } from "../../types/unit";
+import { UnitInstance } from "../../types/Unit";
 import { getGridSide } from "../../utils/map/getGridSide";
 import { Unit } from "../Unit/Unit";
 
@@ -25,7 +25,7 @@ export const Units = () => {
   });
 };
 
-function getStartHexes(unitsByTribe: TUnitInstance[][]) {
+function getStartHexes(unitsByTribe: UnitInstance[][]) {
   const grid = state$.grid.get();
   const gridSide = getGridSide(unitsByTribe.length);
 

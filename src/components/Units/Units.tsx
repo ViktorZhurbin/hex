@@ -1,26 +1,22 @@
 import { ring } from "honeycomb-grid";
-import { useState } from "react";
 
-import { TTribe } from "../../constants/tribe";
 import { state$ } from "../../store/state";
 import { TUnitInstance } from "../../types/unit";
 import { getGridSide } from "../../utils/map/getGridSide";
-import { getInitialUnits } from "../../utils/units/getInitialUnits";
 import { Unit } from "../Unit/Unit";
 
-export const Units = ({ tribes }: { tribes: TTribe[] }) => {
-  const [units] = useState(() => getInitialUnits(tribes));
+export const Units = () => {
+  const unitsByTribe = state$.unitsByTribe.get();
 
-  state$.units.set(units.unitsById);
+  const startPositions = getStartHexes(unitsByTribe);
 
-  const startPositions = getStartHexes(units.unitsByTribe);
-
-  return units.unitsByTribe.map((tribeUnits, tribeIndex) => {
+  return unitsByTribe.map((tribeUnits, tribeIndex) => {
     return tribeUnits.map((unit, unitIndex) => {
       const hex = startPositions[tribeIndex][unitIndex];
+      const hexId = hex.toString();
 
-      state$.hexToUnitId[hex.toString()].set(unit.id);
-      state$.unitIdToHex[unit.id].set(hex);
+      state$.hexIdToUnitId[hexId].set(unit.id);
+      state$.unitIdToHexId[unit.id].set(hexId);
 
       if (hex) {
         return <Unit key={unit.id} unitId={unit.id} />;

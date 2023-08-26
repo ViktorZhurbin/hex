@@ -1,3 +1,5 @@
+import { useSelector } from "@legendapp/state/react";
+
 import { Colors } from "../../constants/colors";
 import { state$ } from "../../store/state";
 import { TUnitInstance } from "../../types/unit";
@@ -7,7 +9,12 @@ type UnitProps = {
 };
 
 export const Unit = ({ unitId }: UnitProps) => {
-  const hex = state$.unitIdToHex[unitId].use();
+  const hex = useSelector(() => {
+    const hexId = state$.unitIdToHexId[unitId].get();
+    const hex = state$.hexById[hexId].get();
+
+    return hex;
+  });
 
   const selectedUnitId = state$.selectedUnitId.use();
   const isSelected = selectedUnitId === unitId;

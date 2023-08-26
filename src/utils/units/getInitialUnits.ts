@@ -1,11 +1,13 @@
-import { START_UNITS_BY_TRIBE, TTribe } from "../../constants/tribe";
+import { START_UNITS_BY_TRIBE } from "../../constants/tribe";
 import { Units } from "../../constants/unit";
-import { TUnitInstance } from "../../types/unit";
+import { State, state$ } from "../../store/state";
 
-export const getInitialUnits = (tribes: TTribe[]) => {
-  return tribes.reduce<{
-    unitsById: Record<TUnitInstance["id"], TUnitInstance>;
-    unitsByTribe: TUnitInstance[][];
+export const setInitialUnits = () => {
+  const tribes = state$.tribes.get();
+
+  const { unitsById, unitsByTribe } = tribes.reduce<{
+    unitsById: State["unitsById"];
+    unitsByTribe: State["unitsByTribe"];
   }>(
     (acc, tribe) => {
       const tribeUnitTypes = START_UNITS_BY_TRIBE[tribe];
@@ -28,4 +30,7 @@ export const getInitialUnits = (tribes: TTribe[]) => {
     },
     { unitsById: {}, unitsByTribe: [] },
   );
+
+  state$.unitsById.set(unitsById);
+  state$.unitsByTribe.set(unitsByTribe);
 };

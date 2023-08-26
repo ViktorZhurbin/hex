@@ -1,27 +1,18 @@
-import { Grid, Orientation, defineHex, spiral } from "honeycomb-grid";
+import { For } from "@legendapp/state/react";
 
 import { state$ } from "../../store/state";
-import { getGridSide } from "../../utils/map/getGridSide";
+import { Units } from "../Units/Units";
 import { MapTile } from "./MapTile";
 
-type MapProps = {
-  tribesCount: number;
-};
-
-export const Map = ({ tribesCount }: MapProps) => {
-  const gridSide = getGridSide(tribesCount);
-
-  const HexTile = defineHex({ orientation: Orientation.POINTY });
-
-  const grid = new Grid(HexTile, spiral({ radius: gridSide, start: [0, 0] }));
-
-  state$.grid.set(grid);
-
+export const Map = () => {
   return (
-    <group>
-      {grid.toArray().map((hex) => {
-        return <MapTile hex={hex} key={hex.toString()} />;
-      })}
-    </group>
+    <>
+      <group>
+        <For each={state$.gridHexes} optimized>
+          {(hex) => <MapTile hex$={hex} />}
+        </For>
+      </group>
+      <Units />
+    </>
   );
 };

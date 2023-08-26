@@ -6,8 +6,9 @@ import { ThreeEvent } from "@react-three/fiber";
 import { Hex } from "honeycomb-grid";
 import { useState } from "react";
 
-import { HexColorsMap } from "../../constants/colors";
 import { state$ } from "../../store/state";
+import { getMoveArea } from "../../utils/units/getMoveArea";
+import { TileColorByState, TileState } from "./helpers";
 
 type MapTileProps = {
   hex$: ObservablePrimitiveBaseFns<Hex | undefined>;
@@ -16,13 +17,24 @@ type MapTileProps = {
 const TILE_POSITION_Y = 0.5;
 
 export const MapTile = ({ hex$ }: MapTileProps) => {
-  const [isTileSelected, setTileSelected] = useState(false);
+  const [state, setState] = useState(TileState.default);
 
   useObserve(() => {
     const isTileSelected =
       state$.selectedHexId.get() === hex$.get()?.toString();
+    const state = isTileSelected ? TileState.selected : TileState.default;
 
-    setTileSelected(isTileSelected);
+    setState(state);
+  });
+
+  useObserve(() => {
+    const moveArea = state$.moveArea.get();
+    const hex = hex$.get();
+
+    const isTileHighlighted = hex !== undefined && moveArea?.hasHex(hex);
+    const state = isTileHighlighted ? TileState.highlighted : TileState.default;
+
+    setState(state);
   });
 
   const hex = hex$.get();
@@ -36,12 +48,14 @@ export const MapTile = ({ hex$ }: MapTileProps) => {
 
   const handleClick = (event: ThreeEvent<PointerEvent>) => {
     event.stopPropagation();
+    const isSelected = hexString === state$.selectedHexId.get();
 
     // click selected tile again
-    if (isTileSelected) {
+    if (isSelected) {
       console.log("click selected tile again", hexString);
       state$.selectedHexId.set(null);
       state$.selectedUnitId.set(null);
+      setState(TileState.default);
       return;
     }
 
@@ -52,11 +66,14 @@ export const MapTile = ({ hex$ }: MapTileProps) => {
     if (unitId && unitId === selectedUnitId) {
       console.log("click selected unit again", hexString);
       state$.selectedUnitId.set(null);
+      state$.moveArea.set(null);
       return;
     }
 
     // tile has unit
     if (unitId) {
+      const moveArea = getMoveArea(unitId);
+      state$.moveArea.set(moveArea);
       console.log("tile has unit", hexString);
       state$.selectedHexId.set(null);
       state$.selectedUnitId.set(unitId);
@@ -78,6 +95,7 @@ export const MapTile = ({ hex$ }: MapTileProps) => {
       // clear selections
       state$.selectedUnitId.set(null);
       state$.selectedHexId.set(null);
+      state$.moveArea.set(null);
 
       return;
     }
@@ -100,9 +118,7 @@ export const MapTile = ({ hex$ }: MapTileProps) => {
         </Text>
       )}
       <cylinderGeometry args={[1, 1, TILE_POSITION_Y, 6]} />
-      <meshStandardMaterial
-        color={isTileSelected ? HexColorsMap.selected : HexColorsMap.default}
-      />
+      <meshStandardMaterial color={TileColorByState[state]} />
       <Edges />
     </mesh>
   );

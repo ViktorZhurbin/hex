@@ -5,9 +5,3 @@ export const Colors = {
   purple: "#ba71af",
   secondary: "#ce93d8",
 };
-
-export const HexColorsMap = {
-  default: Colors.green,
-  highlighted: Colors.purple,
-  selected: Colors.darkGreen,
-};

@@ -3,6 +3,7 @@ import { MapControls } from "@react-three/drei/core/MapControls";
 import { Canvas } from "@react-three/fiber";
 
 import { Map } from "./components/Map/Map";
+import { Units } from "./components/Units/Units";
 import { initMap } from "./utils/map/initMap";
 
 enableReactUse();
@@ -13,6 +14,7 @@ const App = () => (
     <ambientLight />
 
     <Map />
+    <Units />
 
     {/* map-like camera controls */}
     <MapControls

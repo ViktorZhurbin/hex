@@ -1,4 +1,3 @@
-import { ObservablePrimitiveBaseFns } from "@legendapp/state";
 import { useObserve } from "@legendapp/state/react";
 import { Text } from "@react-three/drei";
 import { Edges } from "@react-three/drei/core/Edges";
@@ -11,24 +10,23 @@ import { TileColorByState, TileState } from "./constants";
 import { onSelectTile } from "./onSelectTile";
 
 type MapTileProps = {
-  hex$: ObservablePrimitiveBaseFns<Hex | undefined>;
+  hex: Hex;
 };
 
 const TILE_POSITION_Y = 0.5;
 
-export const MapTile = ({ hex$ }: MapTileProps) => {
+export const MapTile = ({ hex }: MapTileProps) => {
   console.log("MapTile rendered");
 
   const [state, setState] = useState(TileState.default);
 
-  const hex = hex$.get();
+  const hexId = hex.toString();
 
   useObserve(() => {
     const moveArea = state$.selection.moveArea.get();
 
-    const isTileHighlighted = hex !== undefined && moveArea?.hasHex(hex);
-    const isTileSelected =
-      state$.selection.selectedHexId.get() === hex?.toString();
+    const isTileHighlighted = moveArea?.hasHex(hex);
+    const isTileSelected = state$.selection.selectedHexId.get() === hexId;
 
     if (isTileHighlighted) {
       setState(TileState.highlighted);
@@ -40,12 +38,6 @@ export const MapTile = ({ hex$ }: MapTileProps) => {
       }
     }
   });
-
-  if (!hex) {
-    return null;
-  }
-
-  const hexId = hex.toString();
 
   const handleClick = (event: ThreeEvent<PointerEvent>) => {
     event.stopPropagation();

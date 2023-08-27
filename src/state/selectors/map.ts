@@ -30,11 +30,3 @@ export const useHexByUnitId = (unitId: UnitInstance["id"]) => {
 
   return hex;
 };
-
-// export const isHexHighlighted = computed(() => {
-//   const moveArea = state$.selection.moveArea.get();
-
-//   const isTileHighlighted = hex !== undefined && moveArea?.hasHex(hex);
-
-//   return isTileHighlighted;
-// });

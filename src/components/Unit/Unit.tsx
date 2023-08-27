@@ -1,6 +1,9 @@
+import { useObserve } from "@legendapp/state/react";
+import { useState } from "react";
+
 import { Colors } from "../../constants/colors";
+import { state$ } from "../../state";
 import { useHexByUnitId } from "../../state/selectors/map";
-import { useIsUnitSelected } from "../../state/selectors/units";
 import { UnitInstance } from "../../types/Unit";
 
 type UnitProps = {
@@ -8,8 +11,21 @@ type UnitProps = {
 };
 
 export const Unit = ({ unitId }: UnitProps) => {
+  console.log("Unit rendered");
+
+  const [isSelected, setSelected] = useState(false);
+
   const hex = useHexByUnitId(unitId);
-  const isSelected = useIsUnitSelected(unitId);
+
+  useObserve(() => {
+    const selectedUnitId = state$.selection.selectedUnitId.get();
+
+    if (selectedUnitId === unitId && !isSelected) {
+      setSelected(true);
+    } else if (selectedUnitId !== unitId && isSelected) {
+      setSelected(false);
+    }
+  });
 
   return (
     <mesh position={[hex.x, 0.5, hex.y]}>

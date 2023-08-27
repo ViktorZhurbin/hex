@@ -19,7 +19,6 @@ export const initMap = () => {
   }, {});
 
   state$.map.grid.set(grid);
-  state$.map.hexes.set(grid.toArray());
 
   state$.map.hexById.set(hexById);
 

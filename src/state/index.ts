@@ -8,7 +8,6 @@ export type State = {
   map: {
     grid: Grid<Hex> | null;
     hexById: Record<string, Hex>;
-    hexes: Hex[];
   };
   mappings: {
     hexIdToUnitId: Record<string, UnitInstance["id"]>;
@@ -30,7 +29,6 @@ export const state$ = observable<State>({
   map: {
     grid: null,
     hexById: {},
-    hexes: [],
   },
   mappings: {
     hexIdToUnitId: {},

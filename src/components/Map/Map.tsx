@@ -1,6 +1,6 @@
 import { For } from "@legendapp/state/react";
 
-import { state$ } from "../../state";
+import { mapHexes$ } from "../../state/selectors/map";
 import { Units } from "../Units/Units";
 import { MapTile } from "./MapTile";
 
@@ -8,7 +8,7 @@ export const Map = () => {
   return (
     <>
       <group>
-        <For each={state$.map.hexes} optimized>
+        <For each={mapHexes$} optimized>
           {(hex) => <MapTile hex$={hex} />}
         </For>
       </group>

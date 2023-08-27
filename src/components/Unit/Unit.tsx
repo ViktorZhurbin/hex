@@ -1,6 +1,6 @@
 import { Colors } from "../../constants/colors";
-import { state$ } from "../../state";
 import { useHexByUnitId } from "../../state/selectors/map";
+import { useIsUnitSelected } from "../../state/selectors/units";
 import { UnitInstance } from "../../types/Unit";
 
 type UnitProps = {
@@ -9,9 +9,7 @@ type UnitProps = {
 
 export const Unit = ({ unitId }: UnitProps) => {
   const hex = useHexByUnitId(unitId);
-
-  const selectedUnitId = state$.selection.selectedUnitId.use();
-  const isSelected = selectedUnitId === unitId;
+  const isSelected = useIsUnitSelected(unitId);
 
   return (
     <mesh position={[hex.x, 0.5, hex.y]}>

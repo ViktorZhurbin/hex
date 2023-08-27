@@ -1,6 +1,6 @@
 import { For } from "@legendapp/state/react";
 
-import { state$ } from "../../store";
+import { state$ } from "../../state";
 import { Units } from "../Units/Units";
 import { MapTile } from "./MapTile";
 

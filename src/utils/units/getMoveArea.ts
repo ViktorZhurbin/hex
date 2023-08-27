@@ -1,6 +1,6 @@
 import { spiral } from "honeycomb-grid";
 
-import { state$ } from "../../store";
+import { state$ } from "../../state";
 import { UnitInstance } from "../../types/Unit";
 
 export const getMoveArea = (unitId: UnitInstance["id"]) => {

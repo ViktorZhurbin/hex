@@ -1,6 +1,6 @@
 import { ring } from "honeycomb-grid";
 
-import { state$ } from "../../store";
+import { state$ } from "../../state";
 import { UnitInstance } from "../../types/Unit";
 import { getGridSide } from "../../utils/map/getGridSide";
 import { Unit } from "../Unit/Unit";

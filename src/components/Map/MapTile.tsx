@@ -6,7 +6,7 @@ import { ThreeEvent } from "@react-three/fiber";
 import { Hex } from "honeycomb-grid";
 import { useState } from "react";
 
-import { state$ } from "../../store";
+import { state$ } from "../../state";
 import { TileColorByState, TileState } from "./helpers";
 import { onSelectTile } from "./onSelectTile";
 

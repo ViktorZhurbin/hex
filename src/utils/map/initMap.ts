@@ -1,6 +1,6 @@
 import { Grid, Orientation, defineHex, spiral } from "honeycomb-grid";
 
-import { State, state$ } from "../../store";
+import { State, state$ } from "../../state";
 import { setInitialUnits } from "../units/getInitialUnits";
 import { getGridSide } from "./getGridSide";
 

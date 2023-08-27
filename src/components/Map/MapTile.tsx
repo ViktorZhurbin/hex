@@ -17,6 +17,8 @@ type MapTileProps = {
 const TILE_POSITION_Y = 0.5;
 
 export const MapTile = ({ hex$ }: MapTileProps) => {
+  console.log("MapTile rendered");
+
   const [state, setState] = useState(TileState.default);
 
   useObserve(() => {
@@ -38,8 +40,6 @@ export const MapTile = ({ hex$ }: MapTileProps) => {
   });
 
   const hex = hex$.get();
-
-  // console.log("MapTile rendered", isTileSelected);
 
   if (!hex) {
     return null;

@@ -8,7 +8,7 @@ export type State = {
   grid: Grid<Hex> | null;
   mappings: {
     hexIdToUnitId: Record<string, UnitInstance["id"]>;
-    unitIdToHexId: Record<UnitInstance["id"], string>;
+    unitIdToHexId: Record<string, string>;
   };
   selection: {
     moveArea: Grid<Hex> | null;
@@ -17,8 +17,8 @@ export type State = {
   };
   units: {
     tribes: Tribes[];
-    unitsById: Record<UnitInstance["id"], UnitInstance>;
-    unitsByTribe: UnitInstance[][];
+    unitsById: Record<string, UnitInstance>;
+    unitsByTribe: Record<string, UnitInstance[]>;
   };
 };
 
@@ -36,6 +36,6 @@ export const state$ = observable<State>({
   units: {
     tribes: [Tribes.tribeOne, Tribes.tribeTwo],
     unitsById: {},
-    unitsByTribe: [],
+    unitsByTribe: {},
   },
 });

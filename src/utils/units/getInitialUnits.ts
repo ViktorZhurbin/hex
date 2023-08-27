@@ -24,11 +24,11 @@ export const setInitialUnits = () => {
         return unit;
       });
 
-      acc.unitsByTribe.push(tribeUnits);
+      acc.unitsByTribe[tribe] = tribeUnits;
 
       return acc;
     },
-    { unitsById: {}, unitsByTribe: [] },
+    { unitsById: {}, unitsByTribe: {} },
   );
 
   state$.units.unitsById.set(unitsById);

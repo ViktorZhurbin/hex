@@ -1,12 +1,13 @@
 import { ring } from "honeycomb-grid";
 
 import { state$ } from "../../state";
+import { unitsByTribe$ } from "../../state/selectors/units";
 import { UnitInstance } from "../../types/Unit";
 import { getGridSide } from "../../utils/map/getGridSide";
 import { Unit } from "../Unit/Unit";
 
 export const Units = () => {
-  const unitsByTribe = state$.units.unitsByTribe.get();
+  const unitsByTribe = unitsByTribe$.get();
 
   const startPositions = getStartHexes(unitsByTribe);
 

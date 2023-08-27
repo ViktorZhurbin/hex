@@ -7,7 +7,7 @@ import { Hex } from "honeycomb-grid";
 import { useState } from "react";
 
 import { state$ } from "../../state";
-import { TileColorByState, TileState } from "./helpers";
+import { TileColorByState, TileState } from "./constants";
 import { onSelectTile } from "./onSelectTile";
 
 type MapTileProps = {

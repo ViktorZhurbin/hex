@@ -21,29 +21,27 @@ export const MapTile = ({ hex$ }: MapTileProps) => {
 
   const [state, setState] = useState(TileState.default);
 
-  useObserve(() => {
-    const isTileSelected =
-      state$.selectedHexId.get() === hex$.get()?.toString();
-    const state = isTileSelected ? TileState.selected : TileState.default;
-
-    setState(state);
-  });
+  const hex = hex$.get();
 
   useObserve(() => {
     const moveArea = state$.moveArea.get();
-    const hex = hex$.get();
 
     const isTileHighlighted = hex !== undefined && moveArea?.hasHex(hex);
-    const state = isTileHighlighted ? TileState.highlighted : TileState.default;
+    const isTileSelected = state$.selectedHexId.get() === hex?.toString();
 
-    setState(state);
+    if (isTileHighlighted) {
+      setState(TileState.highlighted);
+    } else if (isTileSelected) {
+      setState(TileState.selected);
+    } else {
+      setState(TileState.default);
+    }
   });
-
-  const hex = hex$.get();
 
   if (!hex) {
     return null;
   }
+
   const hexString = hex.toString();
 
   const handleClick = (event: ThreeEvent<PointerEvent>) => {
@@ -55,7 +53,6 @@ export const MapTile = ({ hex$ }: MapTileProps) => {
       console.log("click selected tile again", hexString);
       state$.selectedHexId.set(null);
       state$.selectedUnitId.set(null);
-      setState(TileState.default);
       return;
     }
 
@@ -72,17 +69,29 @@ export const MapTile = ({ hex$ }: MapTileProps) => {
 
     // tile has unit
     if (unitId) {
+      console.log("tile has unit", hexString);
       const moveArea = getMoveArea(unitId);
       state$.moveArea.set(moveArea);
-      console.log("tile has unit", hexString);
       state$.selectedHexId.set(null);
       state$.selectedUnitId.set(unitId);
       return;
     }
 
-    // unit was selected, move it to new tile
+    // unit was selected
     if (selectedUnitId) {
-      console.log("unit was selected, move it to new tile", hexString);
+      console.log("unit was selected", hexString);
+      const isTileInRange = state$.moveArea.get()?.hasHex(hex);
+
+      if (!isTileInRange) {
+        console.log("tile is out of move area");
+        state$.selectedHexId.set(hexString);
+        state$.selectedUnitId.set(null);
+        state$.moveArea.set(null);
+
+        return;
+      }
+
+      console.log("move unit to current tile");
       // clear previous positions
       const prevHexId = state$.unitIdToHexId[selectedUnitId].get();
       state$.hexIdToUnitId[prevHexId].set(null);

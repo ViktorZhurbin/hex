@@ -1,7 +1,6 @@
 import { useObserve } from "@legendapp/state/react";
 import { Text } from "@react-three/drei";
 import { Edges } from "@react-three/drei/core/Edges";
-import { ThreeEvent } from "@react-three/fiber";
 import { Hex } from "honeycomb-grid";
 import { useState } from "react";
 
@@ -39,13 +38,15 @@ export const MapTile = ({ hex }: MapTileProps) => {
     }
   });
 
-  const handleClick = (event: ThreeEvent<PointerEvent>) => {
-    event.stopPropagation();
-    onSelectTile(hexId);
-  };
-
   return (
-    <mesh onPointerDown={handleClick} position={[hex.x, 0, hex.y]} scale={0.99}>
+    <mesh
+      onClick={(event) => {
+        event.stopPropagation();
+        onSelectTile(hexId);
+      }}
+      position={[hex.x, 0, hex.y]}
+      scale={0.99}
+    >
       {import.meta.env.DEV && (
         <Text
           fontSize={0.4}

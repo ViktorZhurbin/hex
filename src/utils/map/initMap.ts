@@ -1,7 +1,7 @@
 import { Grid, Orientation, defineHex, spiral } from "honeycomb-grid";
 
 import { state$ } from "../../state";
-import { setInitialUnits } from "../units/getInitialUnits";
+import { setInitialUnits } from "../units/setInitialUnits";
 import { getGridSide } from "./getGridSide";
 
 export const initMap = () => {

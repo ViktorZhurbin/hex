@@ -2,6 +2,7 @@ import { useSelector } from "@legendapp/state/react";
 
 import { Colors } from "../../constants/colors";
 import { state$ } from "../../state";
+import { hexesById$ } from "../../state/selectors/map";
 import { UnitInstance } from "../../types/Unit";
 
 type UnitProps = {
@@ -11,7 +12,7 @@ type UnitProps = {
 export const Unit = ({ unitId }: UnitProps) => {
   const hex = useSelector(() => {
     const hexId = state$.mappings.unitIdToHexId[unitId].get();
-    const hex = state$.map.hexById[hexId].get();
+    const hex = hexesById$[hexId].get();
 
     return hex;
   });

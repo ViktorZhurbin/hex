@@ -1,4 +1,5 @@
 import { state$ } from "../../state";
+import { hexesById$ } from "../../state/selectors/map";
 import { getMoveArea } from "../../utils/units/getMoveArea";
 
 export const onSelectTile = (hexId: string) => {
@@ -36,7 +37,7 @@ export const onSelectTile = (hexId: string) => {
   // unit was selected
   if (selectedUnitId) {
     console.log("unit was selected", hexId);
-    const hex = state$.map.hexById[hexId].peek();
+    const hex = hexesById$[hexId].peek();
     const isTileInRange = state$.selection.moveArea.peek()?.hasHex(hex);
 
     if (!isTileInRange) {

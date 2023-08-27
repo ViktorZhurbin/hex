@@ -26,7 +26,7 @@ export const Units = () => {
 };
 
 function getStartHexes(unitsByTribe: UnitInstance[][]) {
-  const grid = state$.map.grid.get();
+  const grid = state$.grid.get();
   const gridSide = getGridSide(unitsByTribe.length);
 
   const traverser = ring({ center: [0, 0], start: [gridSide - 1, 0] });

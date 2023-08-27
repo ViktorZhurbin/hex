@@ -5,10 +5,7 @@ import { Tribes } from "../constants/tribe";
 import { UnitInstance } from "../types/Unit";
 
 export type State = {
-  map: {
-    grid: Grid<Hex> | null;
-    hexById: Record<string, Hex>;
-  };
+  grid: Grid<Hex> | null;
   mappings: {
     hexIdToUnitId: Record<string, UnitInstance["id"]>;
     unitIdToHexId: Record<UnitInstance["id"], string>;
@@ -26,10 +23,7 @@ export type State = {
 };
 
 export const state$ = observable<State>({
-  map: {
-    grid: null,
-    hexById: {},
-  },
+  grid: null,
   mappings: {
     hexIdToUnitId: {},
     unitIdToHexId: {},

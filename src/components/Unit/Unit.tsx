@@ -1,7 +1,7 @@
 import { useSelector } from "@legendapp/state/react";
 
 import { Colors } from "../../constants/colors";
-import { state$ } from "../../store/state";
+import { state$ } from "../../store";
 import { UnitInstance } from "../../types/Unit";
 
 type UnitProps = {

@@ -1,6 +1,6 @@
 import { START_UNITS_BY_TRIBE } from "../../constants/tribe";
 import { Units } from "../../constants/unit";
-import { State, state$ } from "../../store/state";
+import { State, state$ } from "../../store";
 
 export const setInitialUnits = () => {
   const tribes = state$.tribes.get();

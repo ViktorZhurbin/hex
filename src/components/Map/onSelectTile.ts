@@ -1,4 +1,4 @@
-import { state$ } from "../../store/state";
+import { state$ } from "../../store";
 import { getMoveArea } from "../../utils/units/getMoveArea";
 
 export const onSelectTile = (hexId: string) => {

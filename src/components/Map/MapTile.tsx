@@ -7,8 +7,8 @@ import { Hex } from "honeycomb-grid";
 import { useState } from "react";
 
 import { state$ } from "../../store/state";
-import { getMoveArea } from "../../utils/units/getMoveArea";
 import { TileColorByState, TileState } from "./helpers";
+import { onSelectTile } from "./onSelectTile";
 
 type MapTileProps = {
   hex$: ObservablePrimitiveBaseFns<Hex | undefined>;
@@ -34,7 +34,9 @@ export const MapTile = ({ hex$ }: MapTileProps) => {
     } else if (isTileSelected) {
       setState(TileState.selected);
     } else {
-      setState(TileState.default);
+      if (state !== TileState.default) {
+        setState(TileState.default);
+      }
     }
   });
 
@@ -42,77 +44,11 @@ export const MapTile = ({ hex$ }: MapTileProps) => {
     return null;
   }
 
-  const hexString = hex.toString();
+  const hexId = hex.toString();
 
   const handleClick = (event: ThreeEvent<PointerEvent>) => {
     event.stopPropagation();
-    const isSelected = hexString === state$.selectedHexId.get();
-
-    // click selected tile again
-    if (isSelected) {
-      console.log("click selected tile again", hexString);
-      state$.selectedHexId.set(null);
-      state$.selectedUnitId.set(null);
-      return;
-    }
-
-    const unitId = state$.hexIdToUnitId[hexString].get();
-    const selectedUnitId = state$.selectedUnitId.get();
-
-    // click selected unit again
-    if (unitId && unitId === selectedUnitId) {
-      console.log("click selected unit again", hexString);
-      state$.selectedUnitId.set(null);
-      state$.moveArea.set(null);
-      return;
-    }
-
-    // tile has unit
-    if (unitId) {
-      console.log("tile has unit", hexString);
-      const moveArea = getMoveArea(unitId);
-      state$.moveArea.set(moveArea);
-      state$.selectedHexId.set(null);
-      state$.selectedUnitId.set(unitId);
-      return;
-    }
-
-    // unit was selected
-    if (selectedUnitId) {
-      console.log("unit was selected", hexString);
-      const isTileInRange = state$.moveArea.get()?.hasHex(hex);
-
-      if (!isTileInRange) {
-        console.log("tile is out of move area");
-        state$.selectedHexId.set(hexString);
-        state$.selectedUnitId.set(null);
-        state$.moveArea.set(null);
-
-        return;
-      }
-
-      console.log("move unit to current tile");
-      // clear previous positions
-      const prevHexId = state$.unitIdToHexId[selectedUnitId].get();
-      state$.hexIdToUnitId[prevHexId].set(null);
-      state$.unitIdToHexId[selectedUnitId].set(null);
-
-      // set new positions
-      state$.hexIdToUnitId[hexString].set(selectedUnitId);
-      state$.unitIdToHexId[selectedUnitId].set(hexString);
-
-      // clear selections
-      state$.selectedUnitId.set(null);
-      state$.selectedHexId.set(null);
-      state$.moveArea.set(null);
-
-      return;
-    }
-
-    // just select a tile
-    console.log("just select a tile", hexString);
-    state$.selectedHexId.set(hexString);
-    state$.selectedUnitId.set(null);
+    onSelectTile(hexId);
   };
 
   return (
@@ -123,7 +59,7 @@ export const MapTile = ({ hex$ }: MapTileProps) => {
           position={[0.2, TILE_POSITION_Y, 0]}
           rotation={[-Math.PI / 2, 0, Math.PI / 2]}
         >
-          {hexString}
+          {hexId}
         </Text>
       )}
       <cylinderGeometry args={[1, 1, TILE_POSITION_Y, 6]} />

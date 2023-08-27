@@ -8,7 +8,7 @@ export const Map = () => {
   return (
     <>
       <group>
-        <For each={state$.gridHexes} optimized>
+        <For each={state$.map.hexes} optimized>
           {(hex) => <MapTile hex$={hex} />}
         </For>
       </group>

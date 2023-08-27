@@ -6,7 +6,7 @@ import { getGridSide } from "../../utils/map/getGridSide";
 import { Unit } from "../Unit/Unit";
 
 export const Units = () => {
-  const unitsByTribe = state$.unitsByTribe.get();
+  const unitsByTribe = state$.units.unitsByTribe.get();
 
   const startPositions = getStartHexes(unitsByTribe);
 
@@ -15,8 +15,8 @@ export const Units = () => {
       const hex = startPositions[tribeIndex][unitIndex];
       const hexId = hex.toString();
 
-      state$.hexIdToUnitId[hexId].set(unit.id);
-      state$.unitIdToHexId[unit.id].set(hexId);
+      state$.mappings.hexIdToUnitId[hexId].set(unit.id);
+      state$.mappings.unitIdToHexId[unit.id].set(hexId);
 
       if (hex) {
         return <Unit key={unit.id} unitId={unit.id} />;
@@ -26,7 +26,7 @@ export const Units = () => {
 };
 
 function getStartHexes(unitsByTribe: UnitInstance[][]) {
-  const grid = state$.grid.get();
+  const grid = state$.map.grid.get();
   const gridSide = getGridSide(unitsByTribe.length);
 
   const traverser = ring({ center: [0, 0], start: [gridSide - 1, 0] });

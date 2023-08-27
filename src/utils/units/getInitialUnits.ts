@@ -3,11 +3,11 @@ import { Units } from "../../constants/unit";
 import { State, state$ } from "../../store";
 
 export const setInitialUnits = () => {
-  const tribes = state$.tribes.get();
+  const tribes = state$.units.tribes.get();
 
   const { unitsById, unitsByTribe } = tribes.reduce<{
-    unitsById: State["unitsById"];
-    unitsByTribe: State["unitsByTribe"];
+    unitsById: State["units"]["unitsById"];
+    unitsByTribe: State["units"]["unitsByTribe"];
   }>(
     (acc, tribe) => {
       const tribeUnitTypes = START_UNITS_BY_TRIBE[tribe];
@@ -31,6 +31,6 @@ export const setInitialUnits = () => {
     { unitsById: {}, unitsByTribe: [] },
   );
 
-  state$.unitsById.set(unitsById);
-  state$.unitsByTribe.set(unitsByTribe);
+  state$.units.unitsById.set(unitsById);
+  state$.units.unitsByTribe.set(unitsByTribe);
 };

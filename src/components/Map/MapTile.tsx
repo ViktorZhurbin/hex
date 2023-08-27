@@ -24,10 +24,11 @@ export const MapTile = ({ hex$ }: MapTileProps) => {
   const hex = hex$.get();
 
   useObserve(() => {
-    const moveArea = state$.moveArea.get();
+    const moveArea = state$.selection.moveArea.get();
 
     const isTileHighlighted = hex !== undefined && moveArea?.hasHex(hex);
-    const isTileSelected = state$.selectedHexId.get() === hex?.toString();
+    const isTileSelected =
+      state$.selection.selectedHexId.get() === hex?.toString();
 
     if (isTileHighlighted) {
       setState(TileState.highlighted);

@@ -10,13 +10,13 @@ type UnitProps = {
 
 export const Unit = ({ unitId }: UnitProps) => {
   const hex = useSelector(() => {
-    const hexId = state$.unitIdToHexId[unitId].get();
-    const hex = state$.hexById[hexId].get();
+    const hexId = state$.mappings.unitIdToHexId[unitId].get();
+    const hex = state$.map.hexById[hexId].get();
 
     return hex;
   });
 
-  const selectedUnitId = state$.selectedUnitId.use();
+  const selectedUnitId = state$.selection.selectedUnitId.use();
   const isSelected = selectedUnitId === unitId;
 
   return (

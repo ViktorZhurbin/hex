@@ -5,29 +5,45 @@ import { Tribes } from "../constants/tribe";
 import { UnitInstance } from "../types/Unit";
 
 export type State = {
-  grid: Grid<Hex> | null;
-  gridHexes: Hex[];
-  hexById: Record<string, Hex>;
-  hexIdToUnitId: Record<string, UnitInstance["id"]>;
-  moveArea: Grid<Hex> | null;
-  selectedHexId: null | string;
-  selectedUnitId: UnitInstance["id"] | null;
-  tribes: Tribes[];
-  unitIdToHexId: Record<UnitInstance["id"], string>;
-  unitsById: Record<UnitInstance["id"], UnitInstance>;
-  unitsByTribe: UnitInstance[][];
+  map: {
+    grid: Grid<Hex> | null;
+    hexById: Record<string, Hex>;
+    hexes: Hex[];
+  };
+  mappings: {
+    hexIdToUnitId: Record<string, UnitInstance["id"]>;
+    unitIdToHexId: Record<UnitInstance["id"], string>;
+  };
+  selection: {
+    moveArea: Grid<Hex> | null;
+    selectedHexId: null | string;
+    selectedUnitId: UnitInstance["id"] | null;
+  };
+  units: {
+    tribes: Tribes[];
+    unitsById: Record<UnitInstance["id"], UnitInstance>;
+    unitsByTribe: UnitInstance[][];
+  };
 };
 
 export const state$ = observable<State>({
-  grid: null,
-  gridHexes: [],
-  hexById: {},
-  hexIdToUnitId: {},
-  moveArea: null,
-  selectedHexId: null,
-  selectedUnitId: null,
-  tribes: [Tribes.tribeOne, Tribes.tribeTwo],
-  unitIdToHexId: {},
-  unitsById: {},
-  unitsByTribe: [],
+  map: {
+    grid: null,
+    hexById: {},
+    hexes: [],
+  },
+  mappings: {
+    hexIdToUnitId: {},
+    unitIdToHexId: {},
+  },
+  selection: {
+    moveArea: null,
+    selectedHexId: null,
+    selectedUnitId: null,
+  },
+  units: {
+    tribes: [Tribes.tribeOne, Tribes.tribeTwo],
+    unitsById: {},
+    unitsByTribe: [],
+  },
 });

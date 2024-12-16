@@ -13,18 +13,18 @@
 	"prettier": {},
 	"dependencies": {
 		"@legendapp/state": "^2.1.15",
-		"@react-three/drei": "^9.80.1",
-		"@react-three/fiber": "^8.13.6",
-		"@types/three": "^0.155.0",
+		"@react-three/drei": "^9.120.4",
+		"@react-three/fiber": "^8.17.10",
 		"honeycomb-grid": "^4.1.4",
 		"react": "^18.2.0",
 		"react-dom": "^18.2.0",
-		"three": "^0.155.0"
+		"three": "^0.171.0"
 	},
 	"devDependencies": {
 		"@biomejs/biome": "1.9.4",
 		"@types/react": "^18.2.15",
 		"@types/react-dom": "^18.2.7",
+		"@types/three": "^0.171.0",
 		"@vitejs/plugin-react": "^4.3.3",
 		"leva": "^0.9.35",
 		"lil-gui": "^0.18.2",

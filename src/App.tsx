@@ -17,7 +17,7 @@ const App = () => (
 
 		{/* map-like camera controls */}
 		<MapControls
-			enableRotate={false}
+			// enableRotate={false}
 			makeDefault
 			maxDistance={50}
 			minDistance={5}

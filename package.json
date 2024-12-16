@@ -8,7 +8,8 @@
 		"build": "vite build",
 		"preview": "vite preview",
 		"format": "biome check --write src",
-		"typecheck": "tsc --noEmit"
+		"typecheck": "tsc --noEmit",
+		"gltfjsx": "npx gltfjsx $npm_config_file --output src/components/models/$npm_config_name.tsx --types"
 	},
 	"dependencies": {
 		"@legendapp/state": "^2.1.15",

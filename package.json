@@ -9,6 +9,7 @@
 		"preview": "vite preview",
 		"format": "biome check --write src",
 		"typecheck": "tsc --noEmit",
+		"bundle-viz": "npx vite-bundle-visualizer",
 		"gltfjsx": "npx gltfjsx $FILE_PATH --output src/components/models/$NAME.tsx --types"
 	},
 	"dependencies": {

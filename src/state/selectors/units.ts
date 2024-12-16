@@ -3,13 +3,13 @@ import { computed } from "@legendapp/state";
 import { state$ } from "..";
 
 export const unitsByTribe$ = computed(() => {
-  const unitsByTribe = state$.units.unitsByTribe.get();
+	const unitsByTribe = state$.units.unitsByTribe.get();
 
-  return Object.values(unitsByTribe);
+	return Object.values(unitsByTribe);
 });
 
 export const unitIds$ = computed(() => {
-  const unitIdToHexId = state$.mappings.unitIdToHexId.get();
+	const unitIdToHexId = state$.mappings.unitIdToHexId.get();
 
-  return Object.keys(unitIdToHexId);
+	return Object.keys(unitIdToHexId);
 });

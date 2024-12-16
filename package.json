@@ -12,7 +12,7 @@
 	},
 	"prettier": {},
 	"dependencies": {
-		"@legendapp/state": "^1.8.1",
+		"@legendapp/state": "^2.1.15",
 		"@react-three/drei": "^9.80.1",
 		"@react-three/fiber": "^8.13.6",
 		"@types/three": "^0.155.0",

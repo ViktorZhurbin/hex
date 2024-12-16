@@ -14,4 +14,16 @@ export default defineConfig({
 			enableBuild: true,
 		}),
 	],
+
+	build: {
+		rollupOptions: {
+			output: {
+				manualChunks: {
+					react: ["react", "react-dom"],
+					"react-three": ["@react-three/drei", "@react-three/fiber"],
+					three: ["three"],
+				},
+			},
+		},
+	},
 });

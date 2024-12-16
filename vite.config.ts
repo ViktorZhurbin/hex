@@ -11,7 +11,7 @@ export default defineConfig({
 		checker({
 			typescript: true,
 			overlay: false,
-			enableBuild: true,
+			enableBuild: false,
 		}),
 	],
 

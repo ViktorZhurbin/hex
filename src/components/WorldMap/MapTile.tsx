@@ -49,7 +49,7 @@ export const MapTile = ({ hex }: MapTileProps) => {
 					onSelectTile(hexId);
 				}}
 			>
-				<MapTileEdges hexId={hexId} />
+				<MapTileEdges hex={hex} />
 			</Grass>
 			{/* {import.meta.env.DEV && (
 				<Text

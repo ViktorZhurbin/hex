@@ -30,7 +30,7 @@ const App = () => (
 			// enableRotate={false}
 			makeDefault
 			maxDistance={50}
-			minDistance={5}
+			minDistance={2}
 			minZoom={10}
 			panSpeed={2}
 		/>

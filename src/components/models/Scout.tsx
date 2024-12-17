@@ -15,7 +15,7 @@ type GLTFResult = GLTF & {
 };
 
 export function Scout(props: JSX.IntrinsicElements["mesh"]) {
-	const { nodes } = useGLTF("/scout.glb") as GLTFResult;
+	const { nodes } = useGLTF("/models/scout.glb") as GLTFResult;
 
 	return (
 		<mesh

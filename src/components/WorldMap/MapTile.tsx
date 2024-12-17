@@ -1,11 +1,11 @@
 import { useObserve } from "@legendapp/state/react";
 // import { Text } from "@react-three/drei";
-// import { Edges } from "@react-three/drei/core/Edges";
 import type { Hex } from "honeycomb-grid";
 import { useState } from "react";
 
 import { state$ } from "../../state";
 import { Grass } from "../models/hex/Grass";
+import { MapTileEdges } from "./MapTileEdges";
 import { TileState } from "./constants";
 import { onSelectTile } from "./onSelectTile";
 
@@ -42,13 +42,15 @@ export const MapTile = ({ hex }: MapTileProps) => {
 	return (
 		<>
 			<Grass
+				scale={1.73}
 				position={[hex.x, -TILE_POSITION_Z, hex.y]}
 				onClick={(event) => {
 					event.stopPropagation();
 					onSelectTile(hexId);
 				}}
-				scale={1.73}
-			/>
+			>
+				<MapTileEdges hexId={hexId} />
+			</Grass>
 			{/* {import.meta.env.DEV && (
 				<Text
 					fontSize={0.4}

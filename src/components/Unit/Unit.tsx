@@ -3,7 +3,7 @@ import { state$ } from "../../state";
 import { useHexByUnitId } from "../../state/selectors/map";
 import type { UnitInstance } from "../../types/Unit";
 import { onSelectTile } from "../WorldMap/onSelectTile";
-import { Scout } from "../models/Scout";
+import { CharacterMaleF } from "../models/units/CharacterMaleF";
 
 type UnitProps = {
 	unitId: UnitInstance["id"];
@@ -16,8 +16,8 @@ export const Unit = ({ unitId }: UnitProps) => {
 	const hexId = state$.mappings.unitIdToHexId[unitId].get();
 
 	return (
-		<Scout
-			position={[hex.x, 0.85, hex.y]}
+		<CharacterMaleF
+			position={[hex.x, 0.35, hex.y]}
 			onClick={(event: ThreeEvent<MouseEvent>) => {
 				event.stopPropagation();
 				onSelectTile(hexId);

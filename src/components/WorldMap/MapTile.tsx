@@ -30,6 +30,7 @@ export const MapTile = ({ hex }: MapTileProps) => {
 		<>
 			<Grass
 				scale={1.73}
+				rotation={[0, -Math.PI / 2, 0]}
 				position={[hex.x, 0, hex.y]}
 				onClick={(event) => {
 					event.stopPropagation();
@@ -38,7 +39,7 @@ export const MapTile = ({ hex }: MapTileProps) => {
 			>
 				<Edges
 					visible={isSelected || isHighlighted}
-					scale={[0.9, 1, 0.9]}
+					scale={[0.9, 1.05, 0.9]}
 					linewidth={5}
 					color={isSelected ? Colors.white : Colors.blue}
 				/>

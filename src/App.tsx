@@ -13,7 +13,7 @@ enableReactTracking({
 initMap();
 
 const App = () => (
-	<Canvas camera={{ fov: 40, position: [10, 10, 0] }}>
+	<Canvas camera={{ fov: 40, position: [7, 7, 0] }}>
 		<ambientLight />
 
 		<WorldMap />
@@ -30,12 +30,12 @@ const App = () => (
 
 		{/* map-like camera controls */}
 		<MapControls
-			// enableRotate={false}
 			makeDefault
-			maxDistance={50}
-			minDistance={2}
+			maxDistance={30}
+			minDistance={3}
 			minZoom={10}
 			panSpeed={2}
+			enableRotate={import.meta.env.DEV}
 		/>
 	</Canvas>
 );

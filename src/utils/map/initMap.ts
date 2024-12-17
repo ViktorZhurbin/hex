@@ -9,7 +9,7 @@ export const initMap = () => {
 	const tribes = state$.units.tribes.get();
 	const gridSide = getGridSide(tribes.length);
 
-	const HexTile = defineHex({ orientation: Orientation.POINTY });
+	const HexTile = defineHex({ orientation: Orientation.FLAT });
 
 	const grid = new Grid(HexTile, spiral({ radius: gridSide, start: [0, 0] }));
 

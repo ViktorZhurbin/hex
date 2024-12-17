@@ -1,4 +1,4 @@
-import { enableReactUse } from "@legendapp/state/config/enableReactUse";
+import { enableReactTracking } from "@legendapp/state/config/enableReactTracking";
 import { Environment } from "@react-three/drei";
 import { MapControls } from "@react-three/drei/core/MapControls";
 import { Canvas } from "@react-three/fiber";
@@ -6,7 +6,10 @@ import { Units } from "./components/Units/Units";
 import { WorldMap } from "./components/WorldMap/WorldMap";
 import { initMap } from "./utils/map/initMap";
 
-enableReactUse();
+enableReactTracking({
+	auto: true,
+});
+
 initMap();
 
 const App = () => (

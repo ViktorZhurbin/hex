@@ -17,7 +17,7 @@ export const Unit = ({ unitId }: UnitProps) => {
 
 	return (
 		<Scout
-			position={[hex.x, 0, hex.y]}
+			position={[hex.x, 0.85, hex.y]}
 			onClick={(event: ThreeEvent<MouseEvent>) => {
 				event.stopPropagation();
 				onSelectTile(hexId);

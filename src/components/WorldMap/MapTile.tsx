@@ -1,18 +1,19 @@
 import { useObserve } from "@legendapp/state/react";
 // import { Text } from "@react-three/drei";
-import { Edges } from "@react-three/drei/core/Edges";
+// import { Edges } from "@react-three/drei/core/Edges";
 import type { Hex } from "honeycomb-grid";
 import { useState } from "react";
 
 import { state$ } from "../../state";
-import { TileColorByState, TileState } from "./constants";
+import { Grass } from "../models/hex/Grass";
+import { TileState } from "./constants";
 import { onSelectTile } from "./onSelectTile";
 
 type MapTileProps = {
 	hex: Hex;
 };
 
-const TILE_POSITION_Y = 0.5;
+const TILE_POSITION_Z = 0.8;
 
 export const MapTile = ({ hex }: MapTileProps) => {
 	console.log("MapTile rendered");
@@ -39,27 +40,27 @@ export const MapTile = ({ hex }: MapTileProps) => {
 	});
 
 	return (
-		// biome-ignore lint/a11y/useKeyWithClickEvents: <explanation>
-		<mesh
-			onClick={(event) => {
-				event.stopPropagation();
-				onSelectTile(hexId);
-			}}
-			position={[hex.x, -0.8, hex.y]}
-			// scale={0.99}
-		>
+		<>
+			<Grass
+				position={[hex.x, -TILE_POSITION_Z, hex.y]}
+				onClick={(event) => {
+					event.stopPropagation();
+					onSelectTile(hexId);
+				}}
+				scale={1.73}
+			/>
 			{/* {import.meta.env.DEV && (
 				<Text
 					fontSize={0.4}
-					position={[0.2, TILE_POSITION_Y, 0]}
+					position={[0.2, TILE_POSITION_Z, 0]}
 					rotation={[-Math.PI / 2, 0, Math.PI / 2]}
 				>
 					{hexId}
 				</Text>
-			)} */}
-			<cylinderGeometry args={[1, 1, TILE_POSITION_Y, 6]} />
+			)}
+			<cylinderGeometry args={[1, 1, TILE_POSITION_Z, 6]} />
 			<meshStandardMaterial color={TileColorByState[state]} />
-			<Edges />
-		</mesh>
+			<Edges /> */}
+		</>
 	);
 };

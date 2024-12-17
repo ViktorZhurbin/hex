@@ -14,17 +14,20 @@ type GLTFResult = GLTF & {
 	materials: object;
 };
 
-export function Scout(props: JSX.IntrinsicElements["mesh"]) {
-	const { nodes } = useGLTF("/models/scout.glb") as GLTFResult;
+const path = "/models/scout.glb";
+
+export function Scout(props: JSX.IntrinsicElements["group"]) {
+	const { nodes } = useGLTF(path) as GLTFResult;
 
 	return (
-		<mesh
-			{...props}
-			scale={0.5}
-			geometry={nodes.mesh_0.geometry}
-			material={nodes.mesh_0.material}
-		/>
+		<group {...props} dispose={null}>
+			<mesh
+				scale={0.5}
+				geometry={nodes.mesh_0.geometry}
+				material={nodes.mesh_0.material}
+			/>
+		</group>
 	);
 }
 
-useGLTF.preload("/scout.glb");
+useGLTF.preload(path);

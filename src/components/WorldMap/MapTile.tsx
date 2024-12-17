@@ -30,6 +30,7 @@ export const MapTile = ({ hex }: MapTileProps) => {
 		<>
 			<Grass
 				scale={1.73}
+				rotation={[0, -Math.PI / 2, 0]}
 				position={[hex.x, 0, hex.y]}
 				onClick={(event) => {
 					event.stopPropagation();

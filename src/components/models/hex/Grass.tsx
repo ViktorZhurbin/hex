@@ -5,6 +5,7 @@ Command: npx gltfjsx@6.5.3 public/models/hex/grass.glb --output src/components/m
 */
 import type * as THREE from "three";
 import type { GLTF } from "three-stdlib";
+import grass from "/models/hex/grass.glb";
 
 type GLTFResult = GLTF & {
 	nodes: {
@@ -16,10 +17,8 @@ type GLTFResult = GLTF & {
 	// animations: GLTFAction[];
 };
 
-const path = "/models/hex/grass.glb";
-
 export function Grass(props: JSX.IntrinsicElements["group"]) {
-	const { nodes, materials } = useGLTF(path) as GLTFResult;
+	const { nodes, materials } = useGLTF(grass) as GLTFResult;
 
 	return (
 		<group {...props} dispose={null}>
@@ -30,4 +29,4 @@ export function Grass(props: JSX.IntrinsicElements["group"]) {
 	);
 }
 
-useGLTF.preload(path);
+useGLTF.preload(grass);

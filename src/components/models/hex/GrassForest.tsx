@@ -6,6 +6,7 @@ Command: npx gltfjsx@6.5.3 public/models/hex/grass-forest.glb --output src/compo
 import { useGLTF } from "@react-three/drei";
 import type * as THREE from "three";
 import type { GLTF } from "three-stdlib";
+import grassForest from "/models/hex/grass-forest.glb";
 
 type GLTFResult = GLTF & {
 	nodes: {
@@ -16,10 +17,8 @@ type GLTFResult = GLTF & {
 	};
 };
 
-const path = "/models/hex/grass-forest.glb";
-
 export function GrassForest(props: JSX.IntrinsicElements["group"]) {
-	const { nodes, materials } = useGLTF(path) as GLTFResult;
+	const { nodes, materials } = useGLTF(grassForest) as GLTFResult;
 	return (
 		<group {...props} dispose={null}>
 			<mesh
@@ -30,4 +29,4 @@ export function GrassForest(props: JSX.IntrinsicElements["group"]) {
 	);
 }
 
-useGLTF.preload(path);
+useGLTF.preload(grassForest);

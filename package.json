@@ -1,35 +1,17 @@
 {
-	"name": "@hex/r3f",
-	"private": true,
-	"version": "0.0.1",
+	"name": "hex",
 	"type": "module",
+	"workspaces": ["apps/*", "libs/*"],
 	"scripts": {
-		"dev": "vite",
-		"build": "tsc -b && vite build",
-		"preview": "vite preview",
-		"format": "biome check --write src",
-		"typecheck": "tsc --noEmit",
-		"bundle-viz": "npx vite-bundle-visualizer",
-		"gltfjsx": "npx gltfjsx $FILE_PATH --output src/components/models/$NAME.tsx --types"
-	},
-	"dependencies": {
-		"@legendapp/state": "^2.1.15",
-		"@react-three/drei": "^9.120.4",
-		"@react-three/fiber": "^8.17.10",
-		"honeycomb-grid": "^4.1.5",
-		"react": "^18.3.1",
-		"react-dom": "^18.3.1",
-		"three": "^0.171.0"
+		"format": "biome check --write",
+		"dev:rtf": "pnpm --filter @hex/rtf dev",
+		"build:rtf": "pnpm --filter @hex/rtf build",
+		"dev:apps": "pnpm --filter './apps/**' dev",
+		"build:apps": "pnpm --filter './apps/**' build"
 	},
 	"devDependencies": {
 		"@biomejs/biome": "1.9.4",
-		"@types/react": "^18.3.17",
-		"@types/react-dom": "^18.3.5",
-		"@types/three": "^0.171.0",
-		"@vitejs/plugin-react": "^4.3.3",
-		"globals": "^15.12.0",
-		"typescript": "^5.7.2",
-		"vite": "^6.0.3",
-		"vite-plugin-checker": "^0.8.0"
+		"@types/node": "^22.10.2",
+		"typescript": "^5.7.2"
 	}
 }

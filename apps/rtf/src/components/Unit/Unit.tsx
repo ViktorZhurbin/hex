@@ -1,12 +1,11 @@
-import { state$ } from "@/shared/state";
-import { useHexByUnitId } from "@/shared/state/selectors/map";
+import { useHexByUnitId } from "@hex/state/src/selectors/map";
+import { state$ } from "@hex/state/src/state";
+import { onSelectTile } from "@hex/state/src/utils/map/onSelectTile";
 import type { ThreeEvent } from "@react-three/fiber";
-import type { UnitInstance } from "@shared/types/Unit";
-import { onSelectTile } from "../WorldMap/onSelectTile";
 import { CharacterMaleF } from "../models/units/CharacterMaleF";
 
 type UnitProps = {
-	unitId: UnitInstance["id"];
+	unitId: string;
 };
 
 export const Unit = ({ unitId }: UnitProps) => {

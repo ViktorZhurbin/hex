@@ -1,10 +1,10 @@
-import { Colors } from "@/shared/constants/colors";
-import { state$ } from "@/shared/state";
+import { Colors } from "@hex/constants/src/colors";
+import { state$ } from "@hex/state/src/state";
+import { onSelectTile } from "@hex/state/src/utils/map/onSelectTile";
 import { useSelector } from "@legendapp/state/react";
 import { Edges, Outlines /* , Text */ } from "@react-three/drei";
 import type { Hex } from "honeycomb-grid";
 import { Grass } from "../models/hex/Grass";
-import { onSelectTile } from "./onSelectTile";
 
 type MapTileProps = {
 	hex: Hex;

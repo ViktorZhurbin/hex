@@ -1,7 +1,7 @@
-import { state$ } from "@/shared/state";
-import { hexesById$ } from "@/shared/state/selectors/map";
-import type { UnitInstance } from "@/shared/types/Unit";
-import { getMoveArea } from "@/shared/utils/units/getMoveArea";
+import { hexesById$ } from "../../selectors/map";
+import { state$ } from "../../state";
+import type { UnitInstance } from "../../types/unit";
+import { getMoveArea } from "../units/getMoveArea";
 
 export const onSelectTile = (hexId: string) => {
 	const isSelected = hexId === state$.selection.selectedHexId.peek();

@@ -1,6 +1,5 @@
+import { mapHexes$ } from "@hex/state/src/selectors/map";
 import { For } from "@legendapp/state/react";
-
-import { mapHexes$ } from "@/shared/state/selectors/map";
 import { MapTile } from "./MapTile";
 
 export const WorldMap = () => (

@@ -1,8 +1,7 @@
 import { observable } from "@legendapp/state";
 import type { Grid, Hex } from "honeycomb-grid";
-
-import { Tribes } from "~/constants/tribe";
-import type { UnitInstance } from "~/types/Unit";
+import { Tribes } from "./types/tribe";
+import type { UnitInstance } from "./types/unit";
 
 export type State = {
 	grid: Grid<Hex> | null;

@@ -1,6 +1,5 @@
 import { computed } from "@legendapp/state";
-
-import { state$ } from "..";
+import { state$ } from "../state";
 
 export const unitsByTribe$ = computed(() => {
 	const unitsByTribe = state$.units.unitsByTribe.get();

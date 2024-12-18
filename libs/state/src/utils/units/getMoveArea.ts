@@ -1,8 +1,7 @@
 import { spiral } from "honeycomb-grid";
-
+import { hexesById$ } from "~/selectors/map";
 import { state$ } from "~/state";
-import { hexesById$ } from "~/state/selectors/map";
-import type { UnitInstance } from "~/types/Unit";
+import type { UnitInstance } from "~/types/unit";
 
 export const getMoveArea = (unitId: UnitInstance["id"]) => {
 	const unit = state$.units.unitsById[unitId].peek();

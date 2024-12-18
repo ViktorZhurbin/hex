@@ -6,12 +6,14 @@
 
 		"baseUrl": ".",
 		"paths": {
-			"~/*": ["src/*"],
-			"@/shared/*": ["../../libs/shared/src/*"]
+			"~/*": ["src/*"]
 		}
 	},
 
 	// Enable finding symbol references in VS Code.
-	"include": ["rsbuild.config.ts", "src", "../../libs/shared/src", "src/env.d.ts"],
-	"references": [{ "path": "../../libs/shared/tsconfig.json" }]
+	"include": ["src", "rsbuild.config.ts", "src/env.d.ts", "../../libs"],
+	"references": [
+		{ "path": "../../libs/state/tsconfig.json" },
+		{ "path": "../../libs/constants/tsconfig.json" }
+	]
 }

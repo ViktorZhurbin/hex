@@ -1,8 +1,8 @@
 import { computed } from "@legendapp/state";
 import { useSelector } from "@legendapp/state/react";
 import type { Hex } from "honeycomb-grid";
-import type { UnitInstance } from "~/types/Unit";
-import { state$ } from "..";
+import { state$ } from "../state";
+import type { UnitInstance } from "../types/unit";
 
 export const mapHexes$ = computed(() => state$.grid.get()?.toArray());
 

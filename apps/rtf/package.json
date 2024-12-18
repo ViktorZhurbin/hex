@@ -10,7 +10,8 @@
 		"bundle-analyzer": "BUNDLE_ANALYZE=true pnpm run build"
 	},
 	"dependencies": {
-		"@hex/shared": "workspace:*",
+		"@hex/constants": "workspace:*",
+		"@hex/state": "workspace:*",
 		"@legendapp/state": "^2.1.15",
 		"@react-three/drei": "^9.120.4",
 		"@react-three/fiber": "^8.17.10",

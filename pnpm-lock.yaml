@@ -20,9 +20,12 @@ importers:
 
   apps/rtf:
     dependencies:
-      '@hex/shared':
+      '@hex/constants':
         specifier: workspace:*
-        version: link:../../libs/shared
+        version: link:../../libs/constants
+      '@hex/state':
+        specifier: workspace:*
+        version: link:../../libs/state
       '@legendapp/state':
         specifier: ^2.1.15
         version: 2.1.15(react@18.3.1)
@@ -72,7 +75,9 @@ importers:
 
   libs/assets: {}
 
-  libs/shared:
+  libs/constants: {}
+
+  libs/state:
     dependencies:
       '@legendapp/state':
         specifier: ^2.1.15
@@ -80,19 +85,6 @@ importers:
       honeycomb-grid:
         specifier: ^4.1.5
         version: 4.1.5
-    devDependencies:
-      '@rsbuild/core':
-        specifier: ^1.1.10
-        version: 1.1.10
-      '@rsbuild/plugin-react':
-        specifier: ^1.1.0
-        version: 1.1.0(@rsbuild/core@1.1.10)
-      '@rsbuild/plugin-source-build':
-        specifier: 1.0.2
-        version: 1.0.2(@rsbuild/core@1.1.10)
-      '@rsbuild/plugin-type-check':
-        specifier: ^1.1.0
-        version: 1.1.0(@rsbuild/core@1.1.10)(typescript@5.7.2)
 
 packages:
 

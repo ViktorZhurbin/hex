@@ -1,4 +1,4 @@
-import { initMap } from "@/shared/utils/map/initMap";
+import { initMap } from "@hex/state/src/utils/map/initMap";
 import { enableReactTracking } from "@legendapp/state/config/enableReactTracking";
 import { Environment } from "@react-three/drei";
 import { MapControls } from "@react-three/drei/core/MapControls";

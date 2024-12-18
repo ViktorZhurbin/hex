@@ -1,7 +1,6 @@
 import { ring } from "honeycomb-grid";
-
+import { unitsByTribe$ } from "~/selectors/units";
 import { state$ } from "~/state";
-import { unitsByTribe$ } from "~/state/selectors/units";
 import { getGridSide } from "../map/getGridSide";
 
 export const placeInitialUnits = () => {

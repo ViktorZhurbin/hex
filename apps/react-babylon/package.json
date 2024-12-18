@@ -10,14 +10,18 @@
 		"bundle-analyzer": "BUNDLE_ANALYZE=true pnpm run build"
 	},
 	"dependencies": {
+		"@babylonjs/core": "^7.40.4",
+		"@babylonjs/gui": "^7.40.4",
 		"@hex/constants": "workspace:*",
 		"@hex/state": "workspace:*",
 		"@legendapp/state": "^2.1.15",
 		"honeycomb-grid": "^4.1.5",
 		"react": "^18.3.1",
+		"react-babylonjs": "^3.2.2",
 		"react-dom": "^18.3.1"
 	},
 	"devDependencies": {
+		"@babylonjs/inspector": "^7.40.4",
 		"@rsbuild/core": "^1.1.10",
 		"@rsbuild/plugin-react": "^1.1.0",
 		"@rsbuild/plugin-source-build": "1.0.2",

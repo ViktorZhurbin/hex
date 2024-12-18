@@ -9,6 +9,7 @@ import {
 } from "react-babylonjs";
 import { InspectorView } from "./components/InspectorView";
 import "./App.css";
+import { Camera } from "./components/Camera";
 
 const DefaultScale = new Vector3(1, 1, 1);
 const BiggerScale = new Vector3(1.25, 1.25, 1.25);
@@ -71,13 +72,9 @@ const App = () => {
 			>
 				<Scene>
 					<InspectorView />
-					<arcRotateCamera
-						name="camera1"
-						target={Vector3.Zero()}
-						alpha={Math.PI / 2}
-						beta={Math.PI / 4}
-						radius={8}
-					/>
+
+					<Camera />
+
 					<hemisphericLight
 						name="light1"
 						intensity={0.7}

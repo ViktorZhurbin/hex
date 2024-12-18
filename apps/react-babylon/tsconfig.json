@@ -1,0 +1,19 @@
+{
+	"extends": "../tsconfig.app.json",
+	"compilerOptions": {
+		"noEmit": true,
+		"allowImportingTsExtensions": true,
+
+		"baseUrl": ".",
+		"paths": {
+			"~/*": ["src/*"]
+		}
+	},
+
+	// Enable finding symbol references in VS Code.
+	"include": ["src", "rsbuild.config.ts", "src/env.d.ts", "../../libs"],
+	"references": [
+		{ "path": "../../libs/state/tsconfig.json" },
+		{ "path": "../../libs/constants/tsconfig.json" }
+	]
+}

@@ -5,7 +5,9 @@
 	"scripts": {
 		"format": "biome check --write",
 		"dev:rtf": "pnpm --filter @hex/rtf dev",
+		"dev:react-babylon": "pnpm --filter @hex/react-babylon dev",
 		"build:rtf": "pnpm --filter @hex/rtf build",
+		"build:react-babylon": "pnpm --filter @hex/react-babylon build",
 		"dev:apps": "pnpm --filter './apps/**' dev",
 		"build:apps": "pnpm --filter './apps/**' build"
 	},

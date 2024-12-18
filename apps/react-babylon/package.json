@@ -1,0 +1,28 @@
+{
+	"name": "@hex/react-babylon",
+	"version": "0.0.1",
+	"type": "module",
+	"scripts": {
+		"dev": "rsbuild dev",
+		"build": "rsbuild build",
+		"preview": "rsbuild preview",
+		"typecheck": "tsc --noEmit",
+		"bundle-analyzer": "BUNDLE_ANALYZE=true pnpm run build"
+	},
+	"dependencies": {
+		"@hex/constants": "workspace:*",
+		"@hex/state": "workspace:*",
+		"@legendapp/state": "^2.1.15",
+		"honeycomb-grid": "^4.1.5",
+		"react": "^18.3.1",
+		"react-dom": "^18.3.1"
+	},
+	"devDependencies": {
+		"@rsbuild/core": "^1.1.10",
+		"@rsbuild/plugin-react": "^1.1.0",
+		"@rsbuild/plugin-source-build": "1.0.2",
+		"@rsbuild/plugin-type-check": "^1.1.0",
+		"@types/react": "^18.3.17",
+		"@types/react-dom": "^18.3.5"
+	}
+}

@@ -7,6 +7,7 @@ import { Suspense } from "react";
 import { AssetManagerContextProvider, Engine, Scene } from "react-babylonjs";
 import { Camera } from "./components/Camera";
 import { InspectorView } from "./components/InspectorView";
+import { Units } from "./components/Units";
 import { WorldMap } from "./components/WorldMap";
 
 enableReactTracking({
@@ -38,6 +39,7 @@ const App = () => {
 					<AssetManagerContextProvider>
 						<Suspense fallback={"Loading..."}>
 							<WorldMap />
+							<Units />
 						</Suspense>
 					</AssetManagerContextProvider>
 				</Scene>
